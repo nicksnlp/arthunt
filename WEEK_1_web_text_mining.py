@@ -21,7 +21,7 @@ ten_descriptions = [des.text for des in pie_descriptions[0:10]]
 print("# From a BBC good food webpage, we extracted a general introduction quote and information for 10 pies on that page :)\n")
 
 print("Webpage Intro:")
-print(intro)
+print(intro+"\n")
 
 for idx in range(10):
     name = ten_pies[idx]
