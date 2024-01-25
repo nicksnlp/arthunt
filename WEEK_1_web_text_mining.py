@@ -4,7 +4,7 @@ import requests
 # retreat pie info from BBC goodfood
 url = "https://www.bbcgoodfood.com/recipes/collection/pie-recipes"
 result = requests.get(url)
-soup = BeautifulSoup(result.text, 'html')
+soup = BeautifulSoup(result.text, 'html.parser')
 
 # EXTRACT PAGE INTRO
 intro = soup.find("p").text
