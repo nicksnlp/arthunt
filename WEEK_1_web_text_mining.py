@@ -1,13 +1,15 @@
 import nltk, re, pprint
 from nltk import word_tokenize
 from urllib import request
+from bs4 import BeautifulSoup
 
 # retreat info from Sally's Baking Recipes (Pies, Crisps, & Tarts)
 url = "https://sallysbakingaddiction.com/category/desserts/pies-crisps-tarts/"
-response = request.urlopen(url)
+html = request.urlopen(url).read().decode('utf8')
 
 # pre-processed content
-raw = response.read().decode('utf8')
+raw = raw = BeautifulSoup(html, 'html.parser').get_text()
 
-# tokenie raw data
+# tokenize raw data
 tokens = word_tokenize(raw)
+text = nltk.Text(tokens)
