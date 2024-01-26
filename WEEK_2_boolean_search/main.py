@@ -1,4 +1,5 @@
 # This the main file for NLP app project. Spring, 2024. Helsinki University.
+from sklearn.feature_extraction.text import CountVectorizer
 
 # Import functions here
 
