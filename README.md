@@ -17,7 +17,7 @@ B. return results (retrieved contents), and take care of:
 
 C. take care of unknown words (see moodle instructions for more detail)
 
-D. build a new word index?
+D. store all docs & build a new word index?
 
 ---------------------------------
 Project:
