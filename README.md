@@ -5,6 +5,7 @@ Task #1: DONE
 Task #2: ON THE WAY
 
 Notes for Task #2:
+
 A. 'user interface' (a loop):
   1. ask the user to enter a QUERY
   2. give instrucitons -- how to quit
@@ -17,6 +18,7 @@ C. take care of unknown words (see moodle instructions for more detail)
 
 D. build a new word index?
 
+---------------------------------
 Project:
   - discussion
 
