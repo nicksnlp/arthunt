@@ -22,8 +22,10 @@ def invalid_term(query, td_matrix, terms, t2i):
         index = t2i[query]
         column_sum = td_matrix[index].sum()
         print(f"The term '{query}' found in article {column_sum}.")
+        return True
     else:
         print(f"Invalid term: '{query}'. Please enter a valid word.")
+        return False
 
 
 file_name = 'enwiki-20181001-corpus.100-articles.txt'
