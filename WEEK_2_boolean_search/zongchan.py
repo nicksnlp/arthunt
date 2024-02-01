@@ -3,7 +3,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 def read_file(file_name):
     with open(file_name, 'r', encoding='UTF-8') as f:
         file_chunk = f.read().replace('\n', ' ')
-        documents = file_chunk.split('</article>')
+        documents = file_chunk.split('</article>') ## what is it? Nick
         del documents[-1]
     return documents
 
@@ -30,4 +30,4 @@ def invalid_term(query, td_matrix, terms, t2i):
 
 file_name = 'enwiki-20181001-corpus.100-articles.txt'
 documents = read_file(file_name)
-td_matrix, terms, t2i = term_matrix(documents)
+td_matrix, terms, t2i = term_matrix(documents) ## what is it? Nick
