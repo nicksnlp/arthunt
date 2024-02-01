@@ -3,7 +3,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 def read_file(file_name):
     with open(file_name, 'r', encoding='UTF-8') as f:
         file_chunk = f.read().replace('\n', ' ')
-        documents = file_chunk.split('</article>') ## what is it? Nick
+        documents = file_chunk.split('</article>')
         del documents[-1]
     return documents
 
