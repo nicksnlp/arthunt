@@ -7,7 +7,7 @@ documents = zongchan.read_file('enwiki-20181001-corpus.100-articles.txt')
 
 #generate term matrix
 td_matrix, terms, t2i = zongchan.term_matrix(documents)
-
+#--------------------------------------------------------------------------------------
 # opening message, shows up only once from the beginning 
 print("Welcome! You can search for articels by entering a query using the keyboard!")
 print("-- To search for articles, please type your query, then press enter;")
@@ -15,7 +15,7 @@ print("-- To QUIT searching, please enter 2 white spaces, then press enter.\n")
 
 # user's first input
 query = input("Your input here: ").lower() #convert input to lower case
-
+#--------------------------------------------------------------------------------------
 # keep asking for an input query until the user quits
 while query != "  ":
     if_exist = zongchan.invalid_term(query, td_matrix, terms, t2i)
