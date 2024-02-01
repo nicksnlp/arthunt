@@ -9,7 +9,7 @@ documents = zongchan.read_file('enwiki-20181001-corpus.100-articles.txt')
 td_matrix, terms, t2i = zongchan.term_matrix(documents)
 #--------------------------------------------------------------------------------------
 # opening message, shows up only once from the beginning 
-print("Welcome! You can search for articels by entering a query using the keyboard!")
+print("Welcome! You can search for articles by entering a query using the keyboard!")
 print("-- To search for articles, please type your query, then press enter;")
 print("-- To QUIT searching, please enter 2 white spaces, then press enter.\n")
 
@@ -28,7 +28,7 @@ while query != "  ":
         print("Query recieved. We've found you these articles:")
         # a query recieved! go fetch the articles!
         # [NICK'S FUNCTION HERE]
-        print("The search has completed. You may chose to:")
+        print("The search has completed. You may choose to:")
         print("1. Start a new search -- type your query and press enter")
         print("2. QUIT -- enter 2 white spaces and press enter\n")
         query = input("Your new input here: ").lower()
