@@ -20,7 +20,7 @@ query = input("Your input here: ").lower() #convert input to lower case
 while query != "  ":
     if_exist = zongchan.invalid_term(query, td_matrix, terms, t2i)
     if if_exist == False: # query word does not exist
-        print(f"Sorry, the token {@@@ZHONGCHAN func outputs} is not among our word list. You may chose to:")
+        print(f"Sorry, the query '{query}' contain word(s) that is not in our word list. You may chose to:")
         print("1. Start a new search -- type your query and press enter")
         print("2. QUIT -- enter 2 white spaces and press enter\n")
         query = input("Your new input here: ").lower()
