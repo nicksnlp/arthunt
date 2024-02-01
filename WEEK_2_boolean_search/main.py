@@ -28,6 +28,8 @@ while query != "  ":
         print("Query recieved. We've found you these articles:")
         # a query recieved! go fetch the articles!
         # [NICK'S FUNCTION HERE]
+        nick.print_contents(query)
+        
         print("The search has completed. You may choose to:")
         print("1. Start a new search -- type your query and press enter")
         print("2. QUIT -- enter 2 white spaces and press enter\n")
