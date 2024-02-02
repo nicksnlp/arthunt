@@ -1,6 +1,6 @@
 # This the main file for NLP app project. Spring, 2024. Helsinki University.
 from sklearn.feature_extraction.text import CountVectorizer
-import nick, zongchan, xinyuan # Import functions from all members' works
+import nick, zongchan # Import functions from all members' works
 
 # read from 100 wiki articles
 documents = zongchan.read_file('enwiki-20181001-corpus.100-articles.txt')
