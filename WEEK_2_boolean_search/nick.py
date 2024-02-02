@@ -1,6 +1,6 @@
 # Nikolay Vorontsov, functions. NLP Apps 2024.
 ## IT SHOULD WORK I THINK, BUT NEEDS TESTING
-
+from sklearn.feature_extraction.text import CountVectorizer
 import nick, zongchan, xinyuan, main # Import functions from all members' worksnick, zongchan, xinyuan # Import functions from all members' works
 
 
