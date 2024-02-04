@@ -1,11 +1,23 @@
 # Nikolay Vorontsov, functions. NLP Apps 2024.
-## IT SHOULD WORK I THINK, BUT NEEDS TESTING
-from sklearn.feature_extraction.text import CountVectorizer
-import nick, zongchan, main # Import functions from all members' worksnick, zongchan, xinyuan # Import functions from all members' works
+import zongchan # Import functions from other members' works
 
+from sklearn.feature_extraction.text import CountVectorizer
+#generate term matrix
+td_matrix, terms, t2i = zongchan.term_matrix(documents)
+
+d = {"and": "&", "AND": "&",
+     "or": "|", "OR": "|",
+     "not": "1 -", "NOT": "1 -",
+     "(": "(", ")": ")"}          # operator replacements
+
+def rewrite_token(t):
+    return d.get(t, 'td_matrix[t2i["{:s}"]]'.format(t)) 
+
+def rewrite_query(query): # rewrite every token in the query
+    return " ".join(rewrite_token(t) for t in query.split())
 
 #print contents of the retrived documents. Input: query -- string
-def print_contents(query):
+def print_contents(query, documents):
 
     hits_matrix = eval(rewrite_query(query))
     
