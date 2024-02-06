@@ -1,93 +1,109 @@
-# This the main file for NLP app project. Spring, 2024. Helsinki University.
 from sklearn.feature_extraction.text import CountVectorizer
 
-# read from 100 wiki articles
+# get documetn contents -> list of strings
 def read_file(file_name):
     with open(file_name, 'r', encoding='UTF-8') as f:
-        file_chunk = f.read().replace('\n', ' ')
-        documents = file_chunk.split('</article>')
-        del documents[-1]
+        file_chunk = f.read().replace('\n', ' ')    # replace all newline characters with single space
+        documents = file_chunk.split('</article>')  # split the file(str) into list
+        del documents[-1]                           # remove the last element, which is empty (which was caused by an </article> in the END of the document)
     return documents
 
-#generate term matrix
-def term_matrix(documents):
-    cv = CountVectorizer()
-    sparse_matrix = cv.fit_transform(documents)
-    dense_matrix = sparse_matrix.todense()
-    td_matrix = dense_matrix.T
-    terms = cv.get_feature_names_out()
-    t2i = cv.vocabulary_
-    return td_matrix, terms, t2i
+# read from 100 wiki articles
+documents = read_file('enwiki-20181001-corpus.100-articles.txt')
 
-d = {"and": "&", "AND": "&",
-     "or": "|", "OR": "|",
-     "not": "1 -", "NOT": "1 -",
-     "(": "(", ")": ")"}          # operator replacements
+
+#generate term-document matrix
+cv = CountVectorizer()                              # short for CountVectorizer()
+sparse_matrix = cv.fit_transform(documents)         # sparse doc-term matrix
+sparse_td_matrix = sparse_matrix.T.tocsr()          # convert matrix to CSR and transpose it
+terms = cv.get_feature_names_out()                  # list of vocabs
+t2i = cv.vocabulary_                                # t2i = term-to-index
+
+
+# output words in the query that are not in the vocab
+def invalid_term(query, terms):
+    invalids = []
+    for t in query.split():
+        if t not in terms:
+            invalids.append(t)
+    return ",".join(invalids)
+
+
+#---------------------------------------------------------------------
+# boolean parser
+d = {"and": "&", "or": "|", "not": "1 -", "(": "(", ")": ")"}   # operator replacements
 
 def rewrite_token(t):
-    return d.get(t, 'td_matrix[t2i.get("{:s}", 0)]'.format(t))
+    return d.get(t, 'sparse_td_matrix[t2i["{:s}"]].todense()'.format(t))    # rewrite query & convert retrieved rows to dense
 
-def rewrite_query(query): # rewrite every token in the query
+def rewrite_query(query):   # rewrite every token in the query
     return " ".join(rewrite_token(t) for t in query.split())
+#---------------------------------------------------------------------
 
-#print contents of the retrived documents. Input: query -- string, documents -- text file(pre-proccessed)
-def print_contents(query, documents):
 
+# print relevant articles
+def print_contents(query):
     hits_matrix = eval(rewrite_query(query))
-    
     hits_list = list(hits_matrix.nonzero()[1])
-    print(hits_list)
+
+    num_matches = len(hits_matrix.nonzero()[1]) # the number of matching docs
+
+    if num_matches:     # CASE 1: there exists at least 1 matching doc
+        # print the number of total matching docs found
+        print(f"{num_matches} matching document(s) found (max. 10 of these documents will be displayed below):\n")     
+        
+        doc_count = 0   # count documents displayed
+
+        for i, doc_idx in enumerate(hits_list): #ptint matching docs (first 10 of them)
+            print(f"Matching doc #{i+1:d}: \n {documents[doc_idx][:300]}...\n")     # print the first 500 characters in the article (to save space)
+            # stop printing when doc_count reaches 10
+            doc_count += 1
+            if doc_count == 10:
+                break
+    else:               # CASE 2: no matching docs found
+        print("Sorry, no matching documents found :(\n")     
+
+
+# put repetitive printing messages into a function; it returns the new query from the user
+def new_search():
+    print("Now, you may chose to:")
+    print("-- Re-enter your query: type your new query and press enter")
+    print("-- QUIT: enter 2 white spaces and press enter\n")
+    print("---------------------------------------------------------------------")        
+    return input("Your new input here: ").lower()
+
+
+#---------------------------------------------------------------------
+# opening message, shows up only once from the beginning 
+print("Welcome! You can search for articles by entering a query using the keyboard!\n")
+print("-- To search for articles, please type your query, then press enter")
+print("-- To QUIT searching, please enter 2 white spaces, then press enter\n")
+
+# user's first input
+print("---------------------------------------------------------------------")        
+query = input("Your input here: ").lower()      # convert input to lower case
+
+
+# keep asking for an input query until the user quits
+while query != "  ":
+    invalid_words = invalid_term(query, terms)
     
-    for i, doc_idx in enumerate(hits_list):
-        print("Matching doc #{:d}  ".format(i))
-        print(documents[doc_idx][:300])
-        print()
+    # when input only contain white spaces (not including 2 spaces, which is the QUIT move)
+    if not query.split():
+        print("\nOops, your input is empty!")
+        print("(Psst! If you were actually trying to QUIT, check if you've accidentaly entered less or more than 2 white spaces!)\n")
+        query = new_search()
 
-def invalid_term(query, td_matrix, terms, t2i):
-    if query in terms: # query = user input
-        index = t2i[query]
-        column_sum = td_matrix[index].sum()
-        print(f"The term '{query}' found in article {column_sum}.")
-        return True
-    else:
-        print(f"Invalid term: '{query}'. Please enter a valid word.")
-        return False
+    # do not search for any thing if there is any invalid word in the query
+    elif len(invalid_words):    # length not equal to 0 -> invalid word exists
+        print(f"\nSorry, our vacabulary doesn't contain '{invalid_words}', please input other words instead.\n")
+        query = new_search()
 
-file_name = 'enwiki-20181001-corpus.100-articles.txt'
-documents = read_file(file_name)
-td_matrix, terms, t2i = term_matrix(documents)
+    else: # proceed searching if there is no invalid word in the query
+        print("\nTHIS QUERY IS VALID.\n")
+        print_contents(query)   # a query recieved! go fetch & print the articles!
+        print("The search has completed.")
+        query = new_search()
 
-def main():
-    #--------------------------------------------------------------------------------------
-    # opening message, shows up only once from the beginning 
-    print("Welcome! You can search for articles by entering a query using the keyboard!")
-    print("-- To search for articles, please type your query, then press enter;")
-    print("-- To QUIT searching, please enter 2 white spaces, then press enter.\n")
-
-    # user's first input
-    query = input("Your input here: ").lower() #convert input to lower case
-    #--------------------------------------------------------------------------------------
-    # keep asking for an input query until the user quits
-    while query != "  ":
-        if_exist = invalid_term(query, td_matrix, terms, t2i)
-        if if_exist == False: # query word does not exist
-            print(f"Sorry, the query '{query}' contain word(s) that is not in our word list. You may chose to:")
-            print("1. Start a new search -- type your query and press enter")
-            print("2. QUIT -- enter 2 white spaces and press enter\n")
-            query = input("Your new input here: ").lower()
-        else:
-            print("Query recieved. We've found you these articles:")
-            # a query recieved! go fetch the articles!
-            # [NICK'S FUNCTION HERE]
-            print_contents(query, documents)
-            
-            print("The search has completed. You may choose to:")
-            print("1. Start a new search -- type your query and press enter")
-            print("2. QUIT -- enter 2 white spaces and press enter\n")
-            query = input("Your new input here: ").lower()
-
-    # user choose QUIT, ending the while loop
-    print("Got it. See you next time!")
-
-
-main()
+# user choose QUIT, ending the while loop
+print("\nYou have chosen QUIT. \nSee you next time then!")
