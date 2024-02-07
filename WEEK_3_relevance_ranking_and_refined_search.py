@@ -2,6 +2,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 
+
 def read_file(file_name):
     with open(file_name, 'r', encoding='UTF-8') as f:
         file_chunk = f.read().replace('\n', ' ')    # replace all newline characters with single space
@@ -83,40 +84,36 @@ def print_relevance_search(query):     # print RELEVANCE search results (top 10 
         print("Sorry, no matching documents found :(\n")         
 
 
-# +
-# put repetitive printing messages into a function; it returns the new query from the user
-def new_search():
+def new_search():    # put repetitive printing messages into a function; it returns the new query from the user
     print("Now, you may chose to:")
     print("-- Re-enter your query: type your new query and press enter")
     print("-- QUIT: enter 2 white spaces and press enter\n")
     print("---------------------------------------------------------------------")        
     return input("Your new input here: ").lower()
 
-#--------------------------------------------------------------------- input loop
+# -------------------------- starts user input
 # opening message, shows up only once from the beginning 
 print("Welcome! You can search for articles by entering a query using the keyboard!\n")
 print("-- To search for articles, please type your query, then press enter")
 print("-- To QUIT searching, please enter 2 white spaces, then press enter\n")
 print("---------------------------------------------------------------------")        
-query = input("Your input here: ").lower()      # # user's first input
+query = input("Your input here: ").lower()      # user's first input
 
-# keep asking for an input query until the user quits
-while query != "  ":
+
+while query != "  ":        # continue asking for an input query until the user quits
     invalid_words = invalid_term(query, terms)
     
-    # when input only contain white spaces (not including 2 spaces, which is the QUIT move)
-    if not query.split():
+    if not query.split():     # user entered white spaces (more or less than 2)
         print("\nOops, your input is empty!")
         print("(Psst! If you were actually trying to QUIT, check if you've accidentaly entered less or more than 2 white spaces!)\n")
         query = new_search()
 
-    # do not search for any thing if there is any invalid word in the query
-    elif len(invalid_words):    # length not equal to 0 -> invalid word exists
+    elif len(invalid_words):    # length not equal to 0 -> invalid word exists -> not search for any thing
         print("\nINVALID TERM(S) DETECTED.\n")
         print(f"Sorry, our vacabulary doesn't contain '{invalid_words}', please input other words instead.\n")
         query = new_search()
 
-    else: # proceed searching if there is no invalid word in the query
+    else: # proceed searching if no invalid word in query
         print("\nTHIS QUERY IS VALID.\n")
         if boolean_detector(query):     # CASE 1: query fits boolean search
             print("-- MODE: Boolean Search --\n")
@@ -128,5 +125,4 @@ while query != "  ":
         print("The search has completed.")
         query = new_search()
 
-# user choose QUIT, ending the while loop
-print("\nYou have chosen QUIT. \nSee you next time then!")
+print("\nYou have chosen QUIT. \nSee you next time then!")    # user choose to QUIT, ending the while loop
