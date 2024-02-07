@@ -13,7 +13,7 @@ documents = read_file('enwiki-20181001-corpus.100-articles.txt')
 
 
 #generate term-document matrix
-cv = CountVectorizer()                              # short for CountVectorizer()
+cv = CountVectorizer(lowercase=True, binary=True)    
 sparse_matrix = cv.fit_transform(documents)         # sparse doc-term matrix
 sparse_td_matrix = sparse_matrix.T.tocsr()          # convert matrix to CSR and transpose it
 terms = cv.get_feature_names_out()                  # list of vocabs
