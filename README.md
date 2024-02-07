@@ -1,26 +1,11 @@
 # IKEA-meatballs
-This is a second test!
 ---------------------------------
 Task #1: DONE
 
 Task #2: ON THE WAY
 
-Notes for Task #2:
-
-A. 'user interface' (a loop):
-  1. ask the user to enter a QUERY
-  2. give instrucitons -- how to quit
-
-B. return results (retrieved contents), and take care of:
-  1. too many documents
-  2. too many text in a document
-
-C. take care of unknown words (see moodle instructions for more detail)
-
-D. store all docs & build a new word index?
+Task #3: ON THE WAY
 
 ---------------------------------
 Project:
-  - discussion
-
-  
+  - discuss the topic, google doc: https://docs.google.com/document/d/1mLtP6uOtzFpnYvlh5aKw3qP1D0DM6efHs_e2M6iu9M4/edit
