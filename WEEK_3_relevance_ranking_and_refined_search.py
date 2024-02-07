@@ -97,7 +97,6 @@ def new_search():
 print("Welcome! You can search for articles by entering a query using the keyboard!\n")
 print("-- To search for articles, please type your query, then press enter")
 print("-- To QUIT searching, please enter 2 white spaces, then press enter\n")
-
 print("---------------------------------------------------------------------")        
 query = input("Your input here: ").lower()      # # user's first input
 
