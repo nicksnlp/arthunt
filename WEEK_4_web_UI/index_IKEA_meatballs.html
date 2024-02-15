@@ -1,0 +1,52 @@
+<!-- this is an experimentting UI! temporarily searching for wiki articles  -->
+<!-- the current search engine takes a query from user and displays the top 10 relevant articles -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>IKEA Meatballs' Search Engine</title>
+  </head>
+  <body>
+    <!-- change these messages for gallery search later -->
+    <h1>IKEA Meatballs' Article Search Engine</h1>
+    <p>Welcome! You can search for wiki articles by entering a query!</p>
+    <p>-- To search for articles, please type your query, then press enter</p>
+    <p>-- To QUIT searching, please enter 2 white spaces, then press enter</p>
+
+    <form>
+      <!-- collect user input -->
+      <!-- query from user input: -->
+      <input type="text" name="query" autofocus />
+      <!-- the "search" button: -->
+      <input type="submit" value="Search" />
+    </form>
+
+    <!-- display search results -->
+    <!-- case 1: relevant articles found -->
+    {% if num_matches%}
+    <p>SEARCH MODE:{{search_mode}}</p>
+    <p>
+      {{num_matches}} matching document(s) found (max. 10 of them will be
+      displayed below):
+    </p>
+    <table>
+      <tr>
+        <th>Article #</th>
+        <th>Content</th>
+      </tr>
+
+      {% for idx, content in enumerate(matches) %}
+      <tr>
+        <td>{{ idx }}</td>
+        <td>{{ content }}...</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <!-- case 2: NO relevant articles found -->
+    {% else %} case 2: NO relevant articles found
+    <p>Sorry, we didn't find any matching documents :(</p>
+    {% endif %}
+  </body>
+</html>
