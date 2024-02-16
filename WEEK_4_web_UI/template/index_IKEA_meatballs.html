@@ -11,8 +11,6 @@
     <!-- change these messages for gallery search later -->
     <h1>IKEA Meatballs' Article Search Engine</h1>
     <p>Welcome! You can search for wiki articles by entering a query!</p>
-    <p>-- To search for articles, please type your query, then press enter</p>
-    <p>-- To QUIT searching, please enter 2 white spaces, then press enter</p>
 
     <form>
       <!-- collect user input -->
@@ -25,7 +23,7 @@
     <!-- display search results -->
     <!-- case 1: relevant articles found -->
     {% if num_matches%}
-    <p>SEARCH MODE:{{search_mode}}</p>
+    <p>SEARCH MODE: {{search_mode}}</p>
     <p>
       {{num_matches}} matching document(s) found (max. 10 of them will be
       displayed below):
@@ -36,9 +34,9 @@
         <th>Content</th>
       </tr>
 
-      {% for idx, content in enumerate(matches) %}
+      {% for content in matches %}
       <tr>
-        <td>{{ idx }}</td>
+        <td>{{ loop.index }}</td>
         <td>{{ content }}...</td>
       </tr>
       {% endfor %}
