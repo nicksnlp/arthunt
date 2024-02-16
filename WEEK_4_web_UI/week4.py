@@ -30,6 +30,7 @@ def invalid_term(query, terms): # output words in the query that are not in the 
             invalids.append(t)
     return ", ".join(invalids)
 
+
 def boolean_search(query):    # print BOOLEAN search results (top 10 only)
     hits_matrix = eval(rewrite_query(query.lower()))
     hits_list = list(hits_matrix.nonzero()[1])
@@ -64,14 +65,15 @@ def relevance_search(query):     # print RELEVANCE search results (top 10 only)
     return num_matches, matches              
 
 # ------------------------------------------
+
 @app.route('/')
 def welcoming_message():
    return "Hi! We are group IKEA Meatballs! Welcome to our search engine!"
 
 
-@app.route('/search')
-def search():  
-    query = request.args.get('query')    #Get query from URL variable
+@app.route('/searcher')
+def search():
+    query = str(request.args.get('query'))    #Get query from URL variable
     invalid_words = invalid_term(query, terms)
     matches = []
     num_matches = 0
