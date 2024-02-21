@@ -6,7 +6,7 @@ import requests
 '''
 FUNCTION INPUT:
 The function below works for the Tate gallery website (debugged & tested)
-To extract gallery info from Tate, you can define the following variable (type = dictionary):
+To extract gallery info from Tate, you can define the following variable (type = dictionary) first:
 
 gallery_2_url = {'Tate':'https://www.tate.org.uk/whats-on'} 
 
