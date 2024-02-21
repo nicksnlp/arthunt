@@ -59,7 +59,7 @@ def extract_gallery_info(gallery_2_url):
         # reset current page hrefs(to each exhibition's own page) 
         current_page_hrefs = []  
         
-        # get urls for each exhibition's own page
+        # 5. accumulate url for each exhibition's own page
         for i in mixed_info:
             info_chunck = i.find_all('a')
             for j in info_chunck:
@@ -110,7 +110,7 @@ def extract_gallery_info(gallery_2_url):
                 intro = intro.text.strip()
             exhib_intro.append(intro)        
         
-        # get url for exhibitions on the other page
+        # get url for exhibitions on the next page
         next_page = soup.find_all('li', class_ = 'pager__item pager__item--next')  
         
         # check if reaches the end of all pages & update current page url accordingly
