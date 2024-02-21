@@ -40,9 +40,6 @@ def extract_gallery_info(gallery_2_url):
     # loop through all exhibition pages (max 20 per page) -- OUTER LOOP 
     # and loop through all exhibitions on each of these pages -- INNER LOOP 
 
-    page_number = 1    # track page number (each page = with the 20 (max) exhibition blocks)
-    total_exhib_count = 1
-
     # initialize current_url as the first page's url
     current_url = gallery_2_url.get('Tate')
 
