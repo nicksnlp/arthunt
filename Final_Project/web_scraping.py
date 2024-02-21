@@ -16,7 +16,7 @@ and use it as the input when calling function 'extract_gallery_info(gallery_2_ur
 '''
 FUNCTION OUTPUTS:
 the function outputs 5 lists, including:
-all exhibitions...
+all exhibitions'...
 1. titles
 2. dates
 3. locations
