@@ -22,7 +22,7 @@ all exhibitions...
 5. url for EACH exhibition's page
 
 NOTE: any missing info will be stored as None type in the lists; 
-      thus,in all 5 lists, the same index number should corresponds to the SAME exhibition!
+      thus,in all 5 lists, the same index number should point to the SAME exhibition!
 '''
 
 
