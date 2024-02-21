@@ -4,6 +4,7 @@ import requests
 
 
 '''
+FUNCTION INPUT:
 The function below works for the Tate gallery website (debugged & tested)
 To extract gallery info from Tate, you can define the following variable (type = dictionary):
 
@@ -13,6 +14,7 @@ and use it as the input when calling function 'extract_gallery_info(gallery_2_ur
 '''
 
 '''
+FUNCTION OUTPUTS:
 the function outputs 5 lists, including:
 all exhibitions...
 1. titles
