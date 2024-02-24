@@ -15,18 +15,18 @@ and use it as the input when calling function 'extract_gallery_info(gallery_2_ur
 
 '''
 FUNCTION OUTPUTS:
-the function outputs 5 lists, including:
+the function outputs 6 lists, including:
 all exhibitions'...
 1. titles
 2. dates
 3. locations
-4. intro articles
-5. url for EACH exhibition's page
+4. brief intro 
+5. articles
+6. url for EACH exhibition's page
 
 NOTE: any missing info will be stored as None type in the lists; 
       thus,in all 5 lists, the same index number should point to the SAME exhibition!
 '''
-
 
 def extract_gallery_info(gallery_2_url):
 
@@ -34,10 +34,11 @@ def extract_gallery_info(gallery_2_url):
     exhib_titles = []         # 1. titles
     exhib_dates = []          # 2. dates
     exhib_locations = []      # 3. locations
-    exhib_intro = []          # 4. intro articles
-    exhib_urls = []           # 5. url for EACH exhibition's page
+    exhib_intro = []          # 4. brief intro
+    exhib_articles = []       # 5. article 
+    exhib_urls = []           # 6. url for EACH exhibition's page
 
-    # loop through all exhibition pages (max 20 per page) -- OUTER LOOP 
+    # loop through all exhibition overview pages (max 20 per page) -- OUTER LOOP 
     # and loop through all exhibitions on each of these pages -- INNER LOOP 
 
     # initialize current_url as the first page's url
@@ -49,17 +50,27 @@ def extract_gallery_info(gallery_2_url):
     # OUTER LOOP  
     while current_url:     # continue looping before reaching the end page
         
-        # reset current page
+        # reset current overview page
         page = requests.get(current_url)        
         soup = BeautifulSoup(page.text, 'html.parser')
 
-        # get all exhibition info on the current webpage
+        # get all exhibition info on current overview page
         mixed_info = soup.find_all('div', class_ = 'card')
         
         # reset current page hrefs(to each exhibition's own page) 
         current_page_hrefs = []  
-        
-        # 5. accumulate url for each exhibition's own page
+
+        # 4. brief intros for each exhibition
+        for i in mixed_info:
+            info_chunck = i.find_all('div', class_ = "card__description")
+            if not info_chunck:   # exhibition without intro info
+                exhib_intro.append(None)
+            else:
+                for intro in info_chunck:
+                    intro = intro.text.strip().replace(u'\xa0', u' ')
+                    exhib_intro.append(intro)
+            
+        # 6. collect url for each exhibition's own page
         for i in mixed_info:
             info_chunck = i.find_all('a')
             for j in info_chunck:
@@ -101,14 +112,15 @@ def extract_gallery_info(gallery_2_url):
                 location = soup2.find('div',class_="content__info-location")   # for some pages, location is displayed in different format
                 if location:  # content not empty
                     if location.find('p'):
-                        location = location.find('p').get_text(strip = True,separator=" - ")            
+                        location = location.find('p').get_text(strip = True,separator = " - ")
+                        location = location.split(" - ")[0]
             exhib_locations.append(location)
             
-            # 4. intro article
+            # 5. article
             intro = soup2.find('div', class_ = "block-rich_text")
             if intro:  # content not empty
                 intro = intro.text.strip()
-            exhib_intro.append(intro)        
+            exhib_articles.append(intro)        
         
         # get url for exhibitions on the next page
         next_page = soup.find_all('li', class_ = 'pager__item pager__item--next')  
@@ -119,4 +131,4 @@ def extract_gallery_info(gallery_2_url):
         else:
             current_url = ''
 
-    return exhib_titles, exhib_dates, exhib_locations, exhib_intro, exhib_urls
+    return exhib_titles, exhib_dates, exhib_locations, exhib_intro, exhib_articles, exhib_urls
