@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <title>Simple Search Engine</title>
+    <style>
+        body {
+            position:relative;
+            left: 5px;
+            top:10px;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            background-image: url('static/bg.jpg');
+            
+            background-color: cadetblue;
+            background-size: cover;
+            color:rgb(42, 20, 187);
+            padding: 20px;
+        }
+        h1 {
+            color:color-mix(in hsl shorter hue, color percentage, color percentage)
+        }
+        ul {
+            color:rgb(37, 6, 36)
+        }
+        li {
+            background-color:rgb(113, 138, 184);
+            border: 1px solid;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        p {
+            margin: 0;
+            color:darkorchid
+        }
+        .image{
+            position: relative;
+            top: 20px;
+            left:40%;
+            width:200px;
+            height:150px;
+        }
+
+        .search-box{
+            position:absolute;
+            top: 8%;
+            left: 40%;
+            width: 300px;
+            height: 380px;
+        }
+        .button{
+            width: 4000px;
+            height: 4000px;
+        }
+    </style>
+</head>
+<body>
+    <div class="search-box">
+        <!-- Search form -->
+        <form action="/search" method="GET">
+            <input type="text" name="query" placeholder="Search...">
+            <button type="submit">Gallery Now!</button>
+        </form>
+    </div>
+    <h1>Gallery Info From Tate.UK </h1>
+    <p>SEARCH MODE: {{search_mode}}</p>
+
+    <p>Total Matches: {{ num_matches }}</p>
+    <p>Displaying {{ 10 }} out of {{ num_matches }} matches:</p>
+    <img src="static/LittleGrebe1.png" class="image" />
+
+    {% if matches %}
+        <ul>
+            {% for match in matches %}
+                <li>{{ match[:200] }}...</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+</body>
+</html>
