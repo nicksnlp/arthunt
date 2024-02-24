@@ -2,17 +2,16 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 from flask import Flask, render_template, request
-
 app = Flask(__name__)
 
 def read_file(file_name):
     with open(file_name, 'r', encoding='UTF-8') as f:
         file_chunk = f.read().replace('\n', ' ')    # replace all newline characters with single space
-        documents = file_chunk.split('</article>')  # split the file(str) into list
-        del documents[-1]                           # remove the last element, which is empty (which was caused by an </article> in the END of the document)
-    return documents    # type: list of strings
+        documents = file_chunk.split('Title:')  # split the file(str) into list
+    return documents 
 
-documents = read_file('enwiki-20181001-corpus.100-articles.txt')    # type = a list of strings
+
+documents = read_file('exhibitions_data.txt')    # type = a list of strings
 
 tv = TfidfVectorizer(lowercase=True, sublinear_tf=True, use_idf=True, norm="l2")
 sparse_matrix_r = tv.fit_transform(documents).T.tocsr()
@@ -59,10 +58,10 @@ def wildcard_search(query):
  
                 for doc in documents:
                     if prefix in doc and suffix in doc:
-                        matches.append(doc[:300])
+                        matches.append(doc)
             else:
                 if term in t2i:
-                    matches.extend([documents[idx][:300] for idx in sparse_matrix_b[t2i[term]].nonzero()[1]])  
+                    matches.extend([documents[idx] for idx in sparse_matrix_b[t2i[term]].nonzero()[1]])  
 
     num_matches = len(matches)
     matches = matches[:10]  # Retrieve only the top 10 matches
@@ -119,7 +118,6 @@ def search():
     matches = []
     num_matches = 0
     search_mode = "Relevance Search"
-    #If query exists (i.e. is not None)
 
     if query:
         num_matches, matches = wildcard_search(query)
@@ -133,4 +131,5 @@ def search():
     else:           
         num_matches, matches = relevance_search(query)
     
-    return render_template('index.html', matches=matches, num_matches=num_matches, search_mode=search_mode)
+    return render_template('index_combined.html', matches=matches, num_matches=num_matches, search_mode=search_mode)
+

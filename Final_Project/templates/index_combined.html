@@ -3,6 +3,7 @@
 <head>
 
     <meta charset="utf-8">
+    
     <title>Simple Search Engine</title>
     <style>
         body {
@@ -32,8 +33,9 @@
         }
         p {
             margin: 0;
-            color:darkorchid
+            color:rgb(37, 6, 36)
         }
+      
         .image{
             position: relative;
             top: 20px;
@@ -44,10 +46,8 @@
 
         .search-box{
             position:absolute;
-            top: 8%;
-            left: 40%;
-            width: 300px;
-            height: 380px;
+            top: 10%;
+            left: 55%;
         }
         .button{
             width: 4000px;
@@ -68,12 +68,16 @@
 
     <p>Total Matches: {{ num_matches }}</p>
     <p>Displaying {{ 10 }} out of {{ num_matches }} matches:</p>
-    <img src="static/LittleGrebe1.png" class="image" />
 
     {% if matches %}
         <ul>
             {% for match in matches %}
-                <li>{{ match[:200] }}...</li>
+                <li>
+                    <td>{{ match [:250]}}...</td>
+
+                    <a href="{{ match[] }}">More Info</a>
+
+                </li>
             {% endfor %}
         </ul>
     {% else %}
