@@ -1,6 +1,5 @@
 # functions that generates graphs
 import matplotlib.pyplot as plt
-import seaborn as sns 
 from collections import Counter 
 
 ''' - read from a list, generate a horizontal bar chart 
