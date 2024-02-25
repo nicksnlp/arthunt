@@ -36,6 +36,7 @@ def bar_generator(item_list, title):
         )
         
     # chart title
+    ax.set_xlabel("number of exhibitions", fontsize = 15)
     ax.set_title(title, fontsize = 20)
     
     plt.show()    
