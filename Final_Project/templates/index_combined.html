@@ -1,87 +1,93 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
+    <meta charset="utf-8" />
 
-    <meta charset="utf-8">
-    
     <title>Simple Search Engine</title>
     <style>
-        body {
-            position:relative;
-            left: 5px;
-            top:10px;
-            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-            background-image: url('static/bg.jpg');
-            
-            background-color: cadetblue;
-            background-size: cover;
-            color:rgb(42, 20, 187);
-            padding: 20px;
-        }
-        h1 {
-            color:color-mix(in hsl shorter hue, color percentage, color percentage)
-        }
-        ul {
-            color:rgb(37, 6, 36)
-        }
-        li {
-            background-color:rgb(113, 138, 184);
-            border: 1px solid;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            padding: 10px;
-        }
-        p {
-            margin: 0;
-            color:rgb(37, 6, 36)
-        }
-      
-        .image{
-            position: relative;
-            top: 20px;
-            left:40%;
-            width:200px;
-            height:150px;
-        }
+      body {
+        position: relative;
+        left: 5px;
+        top: 10px;
+        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+        background-image: url("static/bg.jpg");
 
-        .search-box{
-            position:absolute;
-            top: 10%;
-            left: 55%;
-        }
-        .button{
-            width: 4000px;
-            height: 4000px;
-        }
+        background-color: cadetblue;
+        background-size: cover;
+        color: rgb(42, 20, 187);
+        padding: 20px;
+      }
+      h1 {
+        color: color-mix(
+          in hsl shorter hue,
+          color percentage,
+          color percentage
+        );
+      }
+      ul {
+        color: rgb(37, 6, 36);
+      }
+      li {
+        background-color: rgb(113, 138, 184);
+        border: 1px solid;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        padding: 10px;
+      }
+      p {
+        margin: 0;
+        color: rgb(37, 6, 36);
+      }
+
+      .image {
+        position: relative;
+        top: 20px;
+        left: 40%;
+        width: 200px;
+        height: 150px;
+      }
+
+      .search-box {
+        position: absolute;
+        top: 10%;
+        left: 55%;
+      }
+      .button {
+        width: 4000px;
+        height: 4000px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="search-box">
-        <!-- Search form -->
-        <form action="/search" method="GET">
-            <input type="text" name="query" placeholder="Search...">
-            <button type="submit">Gallery Now!</button>
-        </form>
+      <!-- Search form -->
+      <form action="/search" method="GET">
+        <input type="text" name="query" placeholder="Search..." />
+        <button type="submit">Gallery Now!</button>
+      </form>
     </div>
-    <h1>Gallery Info From Tate.UK </h1>
-    <p>SEARCH MODE: {{search_mode}}</p>
+    <h1>Gallery Info From Tate.UK</h1>
 
+    <!-- display the following info ONLY when there is a query entered -->
+    {% if query %}
+    <p>Search Results For: {{query}}</p>
+    <p>Current Search Mode: {{search_mode}}</p>
     <p>Total Matches: {{ num_matches }}</p>
-    <p>Displaying {{ 10 }} out of {{ num_matches }} matches:</p>
-
+    <p>Displaying {{ 10 }} out of {{ num_matches }} matches per page:</p>
     {% if matches %}
-        <ul>
-            {% for match in matches %}
-                <li>
-                    <td>{{ match [:250]}}...</td>
+    <ul>
+      {% for match in matches %}
+      <li>
+        <td>{{ match [:250]}}...</td>
 
-                    <a href="{{ match[] }}">More Info</a>
-
-                </li>
-            {% endfor %}
-        </ul>
+        <a href="{{ match[] }}">More Info</a>
+      </li>
+      {% endfor %}
+    </ul>
     {% else %}
-        <p>No results found.</p>
+    <p>No results found.</p>
+    {% endif %} {% else %}
+    <p>Try to put some keywords in the search box and give it a try!</p>
     {% endif %}
-</body>
+  </body>
 </html>
