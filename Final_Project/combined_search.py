@@ -108,7 +108,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def welcoming_message():
-    return "Hi! We are group IKEA Meatballs! Welcome to our search engine!"
+    return render_template('home_page.html')
 
 
 @app.route('/search')
