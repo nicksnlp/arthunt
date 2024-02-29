@@ -11,11 +11,10 @@
         left: 5px;
         top: 10px;
         font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-        background-image: url("static/bg.jpg");
+        background-image: url("static/bg1.jpg");
+        background-color: bisque;
 
-        background-color: cadetblue;
-        background-size: cover;
-        color: rgb(42, 20, 187);
+        color: rgb(100, 51, 51);
         padding: 20px;
       }
 
@@ -66,21 +65,33 @@
   </head>
 
   <body>
+    <div class="head_box">
+      <h1 class="title">Start Your Gallery Hunt!</h1>
+      <p class="search_guide">
+        · Searching Modes · <br />
+        Relevant Search: (default)<br />
+        Boolean Search: activates automatically by including "and","or", "not"
+        or round brackets in your query<br />
+        Wildcard Search: activates automatically by including "*" in your query
+      </p>
+    </div>
+
     <div class="search-box">
       <!-- Search form -->
       <form action="/search" method="GET">
-        <input type="text" name="query" placeholder="enter something here..." />
+        <input type="text" name="query" placeholder="search..." />
         <button type="submit">Gallery Now!</button>
       </form>
     </div>
-    <h1>Gallery Info From Tate.UK</h1>
 
     <!-- display the following info ONLY when there is a query entered -->
-    {% if query %}
+    {% if query and query != "None" %}
     <p>Searching For: {{query}}</p>
     <p>Current Search Mode: {{search_mode}}</p>
     <p>Total Matches: {{ num_matches }}</p>
-    <!-- <p>Displaying {{ 10 }} out of {{ num_matches }} matches per page:</p> # switch back to this after adding hrefs for multiple page displayment-->
+
+    <!-- there's at least 1 match, print relevant info -->
+    {% if num_matches %}
 
     <!-- display the bar chart (distribution of galleries within all search results)! -->
     <td align="right">
@@ -90,9 +101,6 @@
         style="width: 600px; height: 100%"
       />
     </td>
-
-    <!-- there's at least 1 match, print relevant info -->
-    {% if num_matches %}
     <ul>
       {% for idx in idx_matches %}
       <div>
