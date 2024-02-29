@@ -2,8 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8" />
-
-    <title>Simple Search Engine</title>
+    <title>Tate!Hunt</title>
+    <link rel="icon" href="../static/favicon.png" type="image/x-icon" />
+    <!-- <link rel="stylesheet" href="../css/search_page_style.css" /> -->
     <style>
       body {
         position: relative;
@@ -17,6 +18,7 @@
         color: rgb(42, 20, 187);
         padding: 20px;
       }
+
       h1 {
         color: color-mix(
           in hsl shorter hue,
@@ -24,9 +26,11 @@
           color percentage
         );
       }
+
       ul {
         color: rgb(37, 6, 36);
       }
+
       li {
         background-color: rgb(113, 138, 184);
         border: 1px solid;
@@ -34,6 +38,7 @@
         margin-bottom: 10px;
         padding: 10px;
       }
+
       p {
         margin: 0;
         color: rgb(37, 6, 36);
@@ -52,17 +57,19 @@
         top: 10%;
         left: 55%;
       }
+
       .button {
         width: 4000px;
         height: 4000px;
       }
     </style>
   </head>
+
   <body>
     <div class="search-box">
       <!-- Search form -->
       <form action="/search" method="GET">
-        <input type="text" name="query" placeholder="Search..." />
+        <input type="text" name="query" placeholder="enter something here..." />
         <button type="submit">Gallery Now!</button>
       </form>
     </div>
@@ -70,24 +77,38 @@
 
     <!-- display the following info ONLY when there is a query entered -->
     {% if query %}
-    <p>Search Results For: {{query}}</p>
+    <p>Searching For: {{query}}</p>
     <p>Current Search Mode: {{search_mode}}</p>
     <p>Total Matches: {{ num_matches }}</p>
-    <p>Displaying {{ 10 }} out of {{ num_matches }} matches per page:</p>
-    {% if matches %}
-    <ul>
-      {% for match in matches %}
-      <li>
-        <td>{{ match [:250]}}...</td>
+    <!-- <p>Displaying {{ 10 }} out of {{ num_matches }} matches per page:</p> # switch back to this after adding hrefs for multiple page displayment-->
 
-        <a href="{{ match[] }}">More Info</a>
-      </li>
+    <!-- there's at least 1 match, print relevant info -->
+    {% if num_matches %}
+    <ul>
+      {% for idx in idx_matches %}
+      <div>
+        <h1>{{exhib_titles[idx]}}</h1>
+        <p>Date: {{exhib_dates[idx]}}</p>
+        <p>Location: {{exhib_locations[idx]}}</p>
+        <p class="intro">{{exhib_intro[idx]}}</p>
+        <p class="article_piece">{{exhib_articles[idx][:250]}}...</p>
+
+        <!-- to each exhibition's page on tate website -->
+        <a href="{{exhib_urls[idx]}}">
+          <button type="button">more info</button>
+        </a>
+      </div>
       {% endfor %}
     </ul>
+
+    <!-- no match found -->
     {% else %}
     <p>No results found.</p>
-    {% endif %} {% else %}
-    <p>Try to put some keywords in the search box and give it a try!</p>
+    {% endif %}
+
+    <!-- no query entered yet -->
+    {% else %}
+    <p>Put some keywords in the search box and give it a try!</p>
     {% endif %}
   </body>
 </html>
