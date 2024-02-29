@@ -82,6 +82,15 @@
     <p>Total Matches: {{ num_matches }}</p>
     <!-- <p>Displaying {{ 10 }} out of {{ num_matches }} matches per page:</p> # switch back to this after adding hrefs for multiple page displayment-->
 
+    <!-- display the bar chart (distribution of galleries within all search results)! -->
+    <td align="right">
+      <i>Your search results are happening at these locations:<br /></i>
+      <img
+        src="./static/query_{{ naming_query }}_plot.png"
+        style="width: 600px; height: 100%"
+      />
+    </td>
+
     <!-- there's at least 1 match, print relevant info -->
     {% if num_matches %}
     <ul>
