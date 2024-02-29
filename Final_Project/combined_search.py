@@ -137,7 +137,8 @@ def search():
     num_matches = 0
     idx_matches = []  
     search_mode = "Relevance Search"            # default search mode
-    
+    naming_query = ''                           # for the naming of generated bar chart
+
     # query not empty ->get all matching idx
     if query:
         # do the searching if there's no invalid term in the query (those with "*" do not count as invalid)
@@ -169,7 +170,6 @@ def search():
                             idx_matches.append(idx)
                             
             # at least 1match found, then generate bar chart
-            naming_query = ''
             if idx_matches:
                 # cannot have "*" in file name, do some replacements
                 naming_query = query_list[0]
