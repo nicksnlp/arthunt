@@ -1,0 +1,31 @@
+Current issues:
+
+Bugs:
+- empty space crashes CONTINUE
+
+- logic operator not in the middle, the thing crashes CONTINUE
+
+- bar chart x chart should be integers CONTINUE
+
+- UI: search bar jumps when displays results. Xinyuan CONTINUE
+
+- UI: lens-icon is not within the search-box Xinyuan CONTINUE
+
+- more than one * also crashes.
+
+Suggestions for improvements on Nick's side (by weeks of the course):
+
+1. Scrape more sites. e.g. add another gallery or so. STOP-DOING
+
+2. Boolean search. Okay. STOP-DOING
+
+3. Add some other search methods. START-DOING
+
+4. UI for search page in general. CONTINUE
+ 
+5. More plots: Keywords, Artists. (Check on moodle) START-DOING
+
+6. (Neural search.) STOP-DOING
+
+
+7. Try/Except to avoid crashes. START-DOING
