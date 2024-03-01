@@ -19,7 +19,7 @@ Suggestions for improvements on Nick's side (by weeks of the course):
 
 2. Boolean search. Okay. STOP-DOING
 
-3. Add some other search methods. START-DOING
+3. Add some other search methods. START-DOING Stemming, lemmatisations
 
 4. UI for search page in general. CONTINUE
  
