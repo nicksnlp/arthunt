@@ -1,74 +1,47 @@
+<!-- NOTE: background image is from freepik (copyright-free) -->
+
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8" />
     <title>Tate!Hunt</title>
-    <link rel="icon" href="../static/favicon.png" type="image/x-icon" />
-    <!-- <link rel="stylesheet" href="../css/search_page_style.css" /> -->
-    <style>
-      body {
-        position: relative;
-        left: 5px;
-        top: 10px;
-        font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-        background-image: url("static/bg1.jpg");
-        background-color: bisque;
+    <link rel="icon" href="../static/favicon.ico" type="image/x-icon" />
 
-        color: rgb(100, 51, 51);
-        padding: 20px;
-      }
-
-      h1 {
-        color: color-mix(
-          in hsl shorter hue,
-          color percentage,
-          color percentage
-        );
-      }
-
-      ul {
-        color: rgb(37, 6, 36);
-      }
-
-      li {
-        background-color: rgb(113, 138, 184);
-        border: 1px solid;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        padding: 10px;
-      }
-
-      p {
-        margin: 0;
-        color: rgb(37, 6, 36);
-      }
-
-      .image {
-        position: relative;
-        top: 20px;
-        left: 40%;
-        width: 200px;
-        height: 150px;
-      }
-
-      .search-box {
-        position: absolute;
-        top: 10%;
-        left: 55%;
-      }
-
-      .button {
-        width: 4000px;
-        height: 4000px;
-      }
-    </style>
+    <!-- css file that renders this webpage -->
+    <link rel="stylesheet" href="../static/searc_page.css" />
   </head>
 
   <body>
-    <div class="head_box">
-      <h1 class="title">Start Your Gallery Hunt!</h1>
-      <p class="search_guide">
-        · Searching Modes · <br />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+
+    <div class="wrapper">
+      <div class="label">Gallery Now!</div>
+      <div class="searchBar">
+        <form action="/search" method="GET">
+          <input
+            id="query"
+            type="text"
+            name="query"
+            placeholder="Search"
+            value=""
+          />
+          <button id="searchQuerySubmit" type="submit" name="searchQuerySubmit">
+            <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+              <path
+                fill="#666666"
+                d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"
+              />
+            </svg>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="search-guide">
+      <p class="head-box">
         Relevant Search: (default)<br />
         Boolean Search: activates automatically by including "and","or", "not"
         or round brackets in your query<br />
@@ -76,26 +49,23 @@
       </p>
     </div>
 
-    <div class="search-box">
-      <!-- Search form -->
-      <form action="/search" method="GET">
-        <input type="text" name="query" placeholder="search..." />
-        <button type="submit">Gallery Now!</button>
-      </form>
-    </div>
-
     <!-- display the following info ONLY when there is a query entered -->
     {% if query and query != "None" %}
-    <p>Searching For: {{query}}</p>
-    <p>Current Search Mode: {{search_mode}}</p>
-    <p>Total Matches: {{ num_matches }}</p>
-
+    <div class="search-guide">
+      <p class="message">
+        Searching For: {{query}}<br />
+        Current Search Mode: {{search_mode}}<br />
+        Total Matches: {{ num_matches }}
+      </p>
+    </div>
     <!-- there's at least 1 match, print relevant info -->
     {% if num_matches %}
 
     <!-- display the bar chart (distribution of galleries within all search results)! -->
-    <td align="right">
-      <i>Your search results are happening at these locations:<br /></i>
+    <td>
+      <p class="message">
+        Your exhibitions are happening at these locations:<br />
+      </p>
       <img
         src="./static/query_{{ naming_query }}_plot.png"
         style="width: 600px; height: 100%"
@@ -103,12 +73,12 @@
     </td>
     <ul>
       {% for idx in idx_matches %}
-      <div>
+      <div class="results">
         <h1>{{exhib_titles[idx]}}</h1>
         <p>Date: {{exhib_dates[idx]}}</p>
         <p>Location: {{exhib_locations[idx]}}</p>
         <p class="intro">{{exhib_intro[idx]}}</p>
-        <p class="article_piece">{{exhib_articles[idx][:250]}}...</p>
+        <p class="article_piece">"{{exhib_articles[idx][:500]}}..."</p>
 
         <!-- to each exhibition's page on tate website -->
         <a href="{{exhib_urls[idx]}}">
@@ -120,12 +90,18 @@
 
     <!-- no match found -->
     {% else %}
-    <p>No results found.</p>
+    <div class="search-guide">
+      <p class="message">No results found.</p>
+    </div>
     {% endif %}
 
     <!-- no query entered yet -->
     {% else %}
-    <p>Put some keywords in the search box and give it a try!</p>
+    <div class="search-guide">
+      <p class="message">
+        Put some keywords in the search box and give it a try!
+      </p>
+    </div>
     {% endif %}
   </body>
 </html>
