@@ -1,0 +1,41 @@
+body {
+  margin: 0;
+  background-color: rgb(170, 85, 48);
+  background-image: url("homepage_bg.jpg");
+  background-size: cover;
+  padding-top: 80px;
+  height: 100vh;
+}
+.title {
+  text-align: center;
+  color: beige;
+  font-size: 100px;
+}
+.intro {
+  text-align: center;
+  padding-left: 200px;
+  padding-right: 200px;
+  padding-bottom: 80px;
+  color: beige;
+  font-size: 26px;
+  font-weight: bold;
+  /* font-family: "consolas", sans-serif; */
+}
+button{
+  background-color:beige;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  left: 45%;
+  border-radius: 50%;
+  padding: 45px 20px;
+  color: rgb(100, 51, 51);
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "consolas", sans-serif;
+}
+/* change button color when hovering cursor on it */
+button:hover{
+  background-color: rgb(132, 168, 165);
+  color:beige;
+}
