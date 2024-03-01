@@ -1,8 +1,6 @@
 # functions that generates graphs
 import matplotlib.pyplot as plt
-from collections import Counter
-import matplotlib
-matplotlib.use('agg')
+from collections import Counter 
 
 
 # +
