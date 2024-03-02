@@ -16,10 +16,10 @@ gallery_2_url = {'Tate':'https://www.tate.org.uk/whats-on'}
 exhib_titles, exhib_dates, exhib_locations, exhib_intro, exhib_articles, exhib_urls = extract_gallery_info(gallery_2_url)
 
 tv = TfidfVectorizer(lowercase=True, sublinear_tf=True, use_idf=True, norm="l2")
-sparse_matrix_r = tv.fit_transform(exhib_articles).T.tocsr()        # 'r' for 'relevance'
+sparse_matrix_r = tv.fit_transform(exhib_articles).T.tocsr()        # sparse_matrix_r: 'r' for 'relevance'
 
 cv = CountVectorizer(lowercase=True, binary=True)   
-sparse_matrix_b = cv.fit_transform(exhib_articles).T.tocsr()        # 'b' for 'boolean'
+sparse_matrix_b = cv.fit_transform(exhib_articles).T.tocsr()        # sparse_matrix_b：'b' for 'boolean'
 
 terms = cv.get_feature_names_out()                  
 t2i = cv.vocabulary_ 
@@ -28,10 +28,23 @@ d = {"and": "&", "or": "|", "not": "1 -", "(": "(", ")": ")"}       # boolean op
 
 
 def boolean_detector(query):    # decide whether to run boolean / relevance search
-    for q in query.split():
-        if q in d.keys():
-            return True
-    return False
+
+    q_split = query.lower().split()
+
+    # logic operators that should not appear at the start/end of the query (except for not)
+    non_starting_words = ['and','or',')']
+    non_ending_words = ['and','or','(', 'not']
+
+    # do not perform boolean search if:
+    # 1) logic operator illegaly appears at the srart/end of query
+    # 2) the query contains only one word
+    if q_split[0] in non_starting_words or q_split[-1] in non_ending_words or len(q_split) == 1:
+        return False
+    else:
+        for q in q_split:
+            if q in d.keys():
+                return True
+        return False
 
 
 def rewrite_token(t):       # rewrite query & convert retrieved rows to dense
@@ -130,7 +143,7 @@ def welcoming_message():
 
 @app.route('/search')
 def search():
-    query = str(request.args.get('query'))      # Get query from URL variable
+    query = str(request.args.get('query')).strip()      # Get query from URL variable, remove starting & ending whitespaces
     query_list = [query]
     
     invalid_words = invalid_term(query, terms)
@@ -139,7 +152,7 @@ def search():
     search_mode = "Relevance Search"            # default search mode
     naming_query = ''                           # for the naming of generated bar chart
 
-    # query not empty ->get all matching idx
+    # query not empty or only contains whitespac -> get all matching idx then
     if query:
         # do the searching if there's no invalid term in the query (those with "*" do not count as invalid)
         if not invalid_words:  
