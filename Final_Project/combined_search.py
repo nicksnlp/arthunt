@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # +
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -79,7 +80,10 @@ def wildcard_parser(query, terms):
     # find the word with '*' 
     for idx, word in enumerate(splited_query):
         if "*" in word:
-            prefix, suffix = word.split('*')
+            # ignors the middle part if there's more than 1 "*" in the word
+            prefix = word.split('*')[0]
+            suffix = word.split('*')[-1]
+
             #possible replacements for the current word in query
             replacement_words = []   
             
@@ -112,9 +116,8 @@ def wildcard_parser(query, terms):
 def boolean_search(query):   
     hits_matrix = eval(rewrite_query(query.lower()))
     idx_matches = list(hits_matrix.nonzero()[1])            # indices of matching contents                
-    num_matches = len(idx_matches)                          # the number of matching docs
 
-    return num_matches, idx_matches  
+    return idx_matches  
 
 
 def relevance_search(query):     
@@ -130,7 +133,8 @@ def relevance_search(query):
         for r in ranked_scores_and_doc_ids:
             idx_matches.append(r[1])
             
-    return num_matches, idx_matches              
+    return idx_matches              
+
 
 # ------------------------------------------
 
@@ -168,22 +172,25 @@ def search():
                 # 1: boolean search  
                 if boolean_detector(q):     
                     search_mode = "Boolean Search"
-                    num_matches_per_loop, idx_matches_per_loop = boolean_search(q)
-                    num_matches += num_matches_per_loop
-                    for idx in idx_matches_per_loop: # prevent repetitions
+                    idx_matches_per_loop = boolean_search(q)
+
+                    for idx in idx_matches_per_loop: # prevent repetitionss
                         if idx not in idx_matches:
                             idx_matches.append(idx)
 
                 # 2: relevance search    
                 else:                           
-                    num_matches_per_loop, idx_matches_per_loop = relevance_search(q)
-                    num_matches += num_matches_per_loop
+                    idx_matches_per_loop = relevance_search(q)
+
                     for idx in idx_matches_per_loop: # prevent repetitions
                         if idx not in idx_matches:
                             idx_matches.append(idx)
                             
             # at least 1match found, then generate bar chart
             if idx_matches:
+                 # count total number of matches
+                num_matches = len(idx_matches)
+                
                 # cannot have "*" in file name, do some replacements
                 naming_query = query_list[0]
                 if "*" in query:
