@@ -25,23 +25,24 @@
             id="query"
             type="text"
             name="query"
-            placeholder="Search"
+            placeholder="input query + hit Enter"
             value=""
           />
-          <button id="searchQuerySubmit" type="submit" name="searchQuerySubmit">
+          <!-- <button id="searchQuerySubmit" type="submit" name="searchQuerySubmit">
             <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
               <path
                 fill="#666666"
                 d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"
               />
             </svg>
-          </button>
+          </button> -->
         </form>
       </div>
     </div>
 
     <div class="search-guide">
       <p class="head-box">
+        SEARCH GUIDE:<br />
         Relevant Search: (default)<br />
         Boolean Search: activates automatically by including "and","or", "not"
         or round brackets in your query<br />
@@ -50,7 +51,7 @@
     </div>
 
     <!-- display the following info ONLY when there is a query entered -->
-    {% if query and query != "None" %}
+    {% if query %}
     <div class="search-guide">
       <p class="message">
         Searching For: {{query}}<br />
@@ -62,23 +63,23 @@
     {% if num_matches %}
 
     <!-- display the bar chart (distribution of galleries within all search results)! -->
-    <td>
-      <p class="message">
+    <div class="search-guide">
+      <p class="content">
         Your exhibitions are happening at these locations:<br />
       </p>
       <img
         src="./static/query_{{ naming_query }}_plot.png"
         style="width: 600px; height: 100%"
       />
-    </td>
+    </div>
     <ul>
       {% for idx in idx_matches %}
       <div class="results">
         <h1>{{exhib_titles[idx]}}</h1>
         <p>Date: {{exhib_dates[idx]}}</p>
         <p>Location: {{exhib_locations[idx]}}</p>
-        <p class="intro">{{exhib_intro[idx]}}</p>
-        <p class="article_piece">"{{exhib_articles[idx][:500]}}..."</p>
+        <p class="intro">"{{exhib_intro[idx]}}"</p>
+        <p class="content">{{exhib_articles[idx][:500]}}...</p>
 
         <!-- to each exhibition's page on tate website -->
         <a href="{{exhib_urls[idx]}}">
