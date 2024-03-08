@@ -30,7 +30,7 @@ NOTE: any missing info will be stored as None type in the lists;
 
 def extract_gallery_info(gallery_2_url):
 
-    # initialize 5 types of info from each exhibition
+    # initialize 6 types of info from each exhibition
     exhib_titles = []         # 1. titles
     exhib_dates = []          # 2. dates
     exhib_locations = []      # 3. locations
@@ -97,11 +97,11 @@ def extract_gallery_info(gallery_2_url):
             # 2. date
             date = soup2.find('span',class_ = "splash-header__dates")
             if date:  # content not empty
-                date = date.text.strip()
+                date = date.get_text(strip = True,separator = "; ") 
             else:
                 date = soup2.find('div',class_="content__info-dates")   # for some pages, date is displayed in different format
                 if date:  # content not empty
-                    date = date.text.strip()                    
+                    date = date.get_text(strip = True,separator = "; ")                    
             exhib_dates.append(date)
             
             # 3. location 
@@ -117,10 +117,10 @@ def extract_gallery_info(gallery_2_url):
             exhib_locations.append(location)
             
             # 5. article
-            intro = soup2.find('div', class_ = "block-rich_text")
-            if intro:  # content not empty
-                intro = intro.text.strip()
-            exhib_articles.append(intro)        
+            article = soup2.find('div', class_ = "block-rich_text")
+            if article:  # content not empty
+                article = article.text.strip()
+            exhib_articles.append(article)        
         
         # get url for exhibitions on the next page
         next_page = soup.find_all('li', class_ = 'pager__item pager__item--next')  
