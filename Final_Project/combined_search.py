@@ -72,7 +72,6 @@ and let the other search funcs do the search for it
 def wildcard_parser(query, terms):
     splited_query = query.lower().split()
     new_query_list = []
-    words_not_found = []
     
     # replace words with '*' by possible words in the vocab,
     # store new queries in a list
@@ -92,10 +91,6 @@ def wildcard_parser(query, terms):
                 if t.startswith(prefix) and t.endswith(suffix):
                     replacement_words.append(t)
                     
-            # no mathcing word found in the vocab for word with *  :(  record all such words       
-            if not replacement_words:
-                 words_not_found.append(word)
-
             # replace each word with '*' by a list of all possible replacement words from vocab
             splited_query[idx] = replacement_words
             
@@ -110,7 +105,7 @@ def wildcard_parser(query, terms):
     for l in splited_query:
         new_query_list.append(" ".join(l))    
 
-    return new_query_list, words_not_found
+    return new_query_list
 
 
 def boolean_search(query):   
@@ -147,24 +142,26 @@ def welcoming_message():
 
 @app.route('/search')
 def search():
-    query = str(request.args.get('query')).strip()      # Get query from URL variable, remove starting & ending whitespaces
-    query_list = [query]
-    
-    invalid_words = invalid_term(query, terms)
+    query = request.args.get('query')   # get query from URL variable
+
     num_matches = 0
     idx_matches = []  
     search_mode = "Relevance Search"            # default search mode
     naming_query = ''                           # for the naming of generated bar chart
 
-    # query not empty or only contains whitespac -> get all matching idx then
+    # query not empty or == None -> get all matching idx then
     if query:
+        query = str(query).strip()      # remove starting & ending whitespaces
+        query_list = [query]
+        invalid_words = invalid_term(query, terms)
+
         # do the searching if there's no invalid term in the query (those with "*" do not count as invalid)
         if not invalid_words:  
             
             # change query_list if there's any '*' in the input query
             if "*" in query:
                 search_mode = "Wildcard Search"  
-                query_list, words_not_found = wildcard_parser(query, terms)
+                query_list = wildcard_parser(query, terms)
             
             # then do the search
             for q in query_list:
@@ -211,5 +208,4 @@ def search():
                            exhib_intro = exhib_intro, 
                            exhib_articles = exhib_articles,
                            exhib_urls = exhib_urls,
-#                          words_not_found = words_not_found    # add this later
                            )
