@@ -98,6 +98,6 @@ By clicking on the "start searching" button on the home page, it goes to the sea
 And here is an example of search results displayed after inputting the query "Watercolour":
 
 1. a bar chart that shows how many on-going/upcoming exhibitions related to "Watercolour" are at each of the branch galleries:
-   ![](demo/demo_search_result_1.png)
-2. and the information about each related exhibition (showing only 2 of them here):
-   ![](demo/demo_search_result_2.png)
+   ![](demo/demo_search_result_1-1.png)
+2. and the information about each related exhibition:
+   ![](demo/demo_search_result_1-2.png)
