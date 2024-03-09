@@ -1,7 +1,7 @@
 # About our project:
 
 Hi! We are team IKEA Meatballs!
-Our project is a search engine for on-going art exhibitions at different branches of Tate galleries.
+Our project is a search engine for on-going and upcoming art exhibitions at different branches of Tate galleries.
 You can search for exhibition info with a query!
 
 Based on the search results found, a bar chart will be generated, showing the distribution (i.e., numbers) of relevant exhibition(s) at each of Tate's branch galleries; for each exhibition in the search results, the following information will be displayed:
@@ -96,6 +96,8 @@ By clicking on the "start searching" button on the home page, it goes to the sea
 ![](demo/demo_search.png)
 
 And here is an example of search results displayed after inputting a query:
-![](demo/demo_yayoi_plot.png)
-![](demo/demo_search_result_1.png)
-![](demo/demo_search_result_2.png)
+
+1. a bar chart that shows how many exhibitions relate to "yayoi" are on-going/upcoming at each of the branch galleries:
+   ![](demo/demo_search_result_1.png)
+2. and the information about each related exhibition (showing only 2 of them here):
+   ![](demo/demo_search_result_2.png)
