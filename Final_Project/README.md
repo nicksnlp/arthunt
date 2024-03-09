@@ -95,9 +95,9 @@ If everything went well, the browser should display this home page:
 By clicking on the "start searching" button on the home page, it goes to the search page:
 ![](demo/demo_search.png)
 
-And here is an example of search results displayed after inputting a query:
+And here is an example of search results displayed after inputting the query "yayoi":
 
-1. a bar chart that shows how many exhibitions relate to "yayoi" are on-going/upcoming at each of the branch galleries:
+1. a bar chart that shows how many on-going/upcoming exhibitions related to "yayoi" are at each of the branch galleries:
    ![](demo/demo_search_result_1.png)
 2. and the information about each related exhibition (showing only 2 of them here):
    ![](demo/demo_search_result_2.png)
