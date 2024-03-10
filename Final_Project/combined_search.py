@@ -201,6 +201,7 @@ def search():
     idx_matches = []  
     search_mode = "Relevance Search"            # default search mode
     naming_query = ''                           # for the naming of generated bar chart
+    query_lemm = ''
 
     # query not empty or == None -> get all matching idx then
     if query:
@@ -251,7 +252,8 @@ def search():
                 bar_generator(exhib_locations, match_locations, naming_query)
 
     return render_template('index_combined.html', 
-                           query = query, 
+                           query = query,
+                           query_lemm = query_lemm,
                            naming_query = naming_query,
                            idx_matches = idx_matches, 
                            num_matches = num_matches,
