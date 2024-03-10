@@ -215,7 +215,7 @@ def search():
             # change query_list if there's any '*' in the input query
             if "*" in query:
                 search_mode = "Wildcard Search"  
-                query_list = wildcard_parser(query, terms)
+                query_list = wildcard_parser(query_lemm, terms)
             
             # then do the search
             for q in query_list:
