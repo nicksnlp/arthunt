@@ -25,8 +25,8 @@ The search engine has 3 different search modes. Search mode will be automaticall
 ## How to run the search engine:
 
 Our search engine is not a public website; it can only run on a local device.
-To run this search engine, one needs to set up and activate a virtual environment, and install Flask.
-The following libraries are also need to be installed in the environment: scikit-learn, spacy, beautifulsoup.
+To run this search engine, one needs to set up and activate a virtual environment, and install <strong>Flask</strong>.
+The following libraries are also need to be installed in the environment: <strong>scikit-learn, spacy, beautifulsoup</strong>.
 
 ### To set up
 
