@@ -7,16 +7,17 @@ You can search for exhibition info with a query!
 Based on the search results found, a bar chart will be generated, showing the distribution (i.e., numbers) of relevant exhibition(s) at each of Tate's branch galleries; for each exhibition in the search results, the following information will be displayed:
 
 1. the exhibition name
-2. time period
-3. location
-4. a brief summary about the exhibition's content
-5. a snapshot of an intro article
-6. and by clicking to the "more info" button shown below each piece of search result, you can access Tate's website for that specific exhibition
+2. people names and other entities mentioned in the article
+3. time period
+4. location
+5. a brief summary about the exhibition's content
+6. a snapshot of an intro article
+7. and by clicking to the "more info" button shown below each piece of search result, you can access Tate's website for that specific exhibition
 
 The search engine has 3 different search modes. Search mode will be automatically selected based on the content of the query (and the activated search mode for an input query will be displayed). The search modes include the following:
 
-1. Relevance Search (the default mode)
-2. Boolean Search (activated automatically if the query contains logic operator(s), including 'and', 'or', 'not', and brackets)\*
+1. Relevance Search (the default mode), includes lemmatisation
+2. Boolean Search (activated automatically if the query contains logic operator(s), including 'and', 'or', 'not', and brackets)\*, includes lemmatisation
 3. Wildcard Search (activated automatically if the query contains "\*")
 
 \*NOTE: to activate the Boolean Search mode, the logic operator in a query needs to be used in an acceptable way (e.g., a query such as "and cat" will be considered illegal, and the Boolean Search mode will not be activated. Instead, Relevance Search will take over in this case.)
@@ -25,6 +26,7 @@ The search engine has 3 different search modes. Search mode will be automaticall
 
 Our search engine is not a public website; it can only run on a local device.
 To run this search engine, one needs to set up and activate a virtual environment, and install Flask.
+The following libraries are also need to be installed in the environment: scikit-learn, spacy, beautifulsoup.
 
 ### To set up
 
