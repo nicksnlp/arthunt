@@ -14,11 +14,12 @@ Based on the search results found, a bar chart will be generated, showing the di
 6. a snapshot of an intro article
 7. and by clicking to the "more info" button shown below each piece of search result, you can access Tate's website for that specific exhibition
 
-The search engine has 3 different search modes. Search mode will be automatically selected based on the content of the query (and the activated search mode for an input query will be displayed). The search modes include the following:
+The search engine has 4 different search modes. Search mode will be automatically selected based on the content of the query (and the activated search mode for an input query will be displayed). The search modes include the following:
 
-1. Relevance Search (the default mode), includes lemmatisation
-2. Boolean Search (activated automatically if the query contains logic operator(s), including 'and', 'or', 'not', and brackets)\*
-3. Wildcard Search (activated automatically if the query contains "\*")
+1. Relevance Search with lemmatisation (the default mode)
+2. Boolean Search WITHOUT lemmatisation (activated automatically if the query contains logic operator(s), including 'and', 'or', 'not', and brackets)\*
+3. Wildcard + Relevance Search (activated automatically if the query contains "\*")
+4. Wildcard + Boolean Search (activated automatically if the query contains "\*" + logic operator)
 
 \*NOTE: to activate the Boolean Search mode, the logic operator in a query needs to be used in an acceptable way (e.g., a query such as "and cat" will be considered illegal, and the Boolean Search mode will not be activated. Instead, Relevance Search will take over in this case.)
 
