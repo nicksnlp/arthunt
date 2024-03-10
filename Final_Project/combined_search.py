@@ -106,6 +106,7 @@ t2i_lemm = cv_lemm.vocabulary_
 d = {"and": "&", "or": "|", "not": "1 -", "(": "(", ")": ")"}       # boolean operators
 
 
+
 def boolean_detector(query):    # decide whether to run boolean / relevance search
 
     q_split = query.lower().split()
@@ -126,16 +127,12 @@ def boolean_detector(query):    # decide whether to run boolean / relevance sear
         return False
 
 
-def rewrite_token(t, is_wildcard):       # rewrite query & convert retrieved rows to dense
-    if is_wildcard:
-        return d.get(t, 'sparse_matrix_b[t2i["{:s}"]].todense()'.format(t)) 
-    else:
-        return d.get(t, 'sparse_matrix_b_lemm[t2i["{:s}"]].todense()'.format(t)) 
- 
+def rewrite_token(t):       # rewrite query & convert retrieved rows to dense
+    return d.get(t, 'sparse_matrix_b[t2i["{:s}"]].todense()'.format(t))    
 
 
-def rewrite_query(query, is_wildcard):   # rewrite every token in the query
-    return " ".join(rewrite_token(t, is_wildcard) for t in query.split())
+def rewrite_query(query):   # rewrite every token in the query
+    return " ".join(rewrite_token(t) for t in query.split())
 
 
 def invalid_term(query, terms): # output words in the query that are not in the vocab
@@ -190,8 +187,8 @@ def wildcard_parser(query, terms):
     return new_query_list
 
 
-def boolean_search(query, is_wildcard):   
-    hits_matrix = eval(rewrite_query(query.lower(), is_wildcard))
+def boolean_search(query):   
+    hits_matrix = eval(rewrite_query(query.lower()))
     idx_matches = list(hits_matrix.nonzero()[1])            # indices of matching contents                
 
     return idx_matches  
@@ -266,9 +263,9 @@ def search():
                     if is_wildcard:   
                         search_mode = "Boolean + Wildcard Search"
                     else:
-                        search_mode = "Boolean Search + Lemmatization"    
+                        search_mode = "Boolean Search"    
 
-                    idx_matches_per_loop = boolean_search(q, is_wildcard)
+                    idx_matches_per_loop = boolean_search(q)
 
                     for idx in idx_matches_per_loop: # prevent repetitionss
                         if idx not in idx_matches:
