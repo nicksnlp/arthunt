@@ -236,7 +236,7 @@ def search():
     query_lemm = ''
 
     # query not empty or == None -> get all matching idx then
-    if query:
+    if query and not str(query).isspace():
         query = str(query).strip()      # remove starting & ending whitespaces
         query_lemm = lemmatise_query(query)
         query_list = [query_lemm]
@@ -294,6 +294,10 @@ def search():
                     
                 match_locations = [exhib_locations[idx] for idx in idx_matches]
                 bar_generator(exhib_locations, match_locations, naming_query)
+
+    # query contains multiple whitespaces
+    elif str(query).isspace():
+        query = None
 
     return render_template('index_combined.html', 
                            query = query,
