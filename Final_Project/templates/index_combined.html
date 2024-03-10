@@ -46,7 +46,7 @@
     {% if query %}
     <div class="search-guide">
       <p class="message">
-        Searching For: {{query_lemm}}<br />
+        Searching For: {{query}}<br />
         Current Search Mode: {{search_mode}}<br />
         Total Matches: {{ num_matches }}
       </p>
@@ -68,7 +68,10 @@
       {% for idx in idx_matches %}
       <div class="results">
         <h1>{{exhib_titles[idx]}}</h1>
-	<p>People and Entities Mentioned: {{", ".join(people_mentioned_by_articles[idx])}}</p>
+        <p>
+          People and Entities Mentioned: {{",
+          ".join(people_mentioned_by_articles[idx])}}
+        </p>
         <p>Date: {{exhib_dates[idx]}}</p>
         <p>Location: {{exhib_locations[idx]}}</p>
         <p class="intro">"{{exhib_intro[idx]}}"</p>
