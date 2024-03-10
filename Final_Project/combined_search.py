@@ -74,7 +74,7 @@ tv = TfidfVectorizer(lowercase=True, sublinear_tf=True, use_idf=True, norm="l2")
 sparse_matrix_r = tv.fit_transform(exhib_articles_lemm).T.tocsr()        # sparse_matrix_r: 'r' for 'relevance'
 
 cv = CountVectorizer(lowercase=True, binary=True)   
-sparse_matrix_b = cv.fit_transform(exhib_articles).T.tocsr()        # sparse_matrix_b：'b' for 'boolean'
+sparse_matrix_b = cv.fit_transform(exhib_articles_lemm).T.tocsr()        # sparse_matrix_b：'b' for 'boolean'
 
 terms = cv.get_feature_names_out()
 t2i = cv.vocabulary_ 
@@ -215,7 +215,7 @@ def search():
             # change query_list if there's any '*' in the input query
             if "*" in query:
                 search_mode = "Wildcard Search"  
-                query_list = wildcard_parser(query, terms)
+                query_list = wildcard_parser(query_lemm, terms)
             
             # then do the search
             for q in query_list:
@@ -251,7 +251,7 @@ def search():
                 bar_generator(exhib_locations, match_locations, naming_query)
 
     return render_template('index_combined.html', 
-                           query = query, 
+                           query = query_lemm, 
                            naming_query = naming_query,
                            idx_matches = idx_matches, 
                            num_matches = num_matches,
