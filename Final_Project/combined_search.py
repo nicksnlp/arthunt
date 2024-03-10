@@ -8,6 +8,14 @@ import itertools
 
 from web_scraping import extract_gallery_info
 from data_visualization import bar_generator
+
+# pip install -U spacy -- MAKE SURE THIS IS DONE
+# python -m spacy download en_core_web_sm  -- MAKE SURE THIS IS DONE (may be python3 needed)
+import spacy
+
+# Load the spaCy English model
+nlp = spacy.load('en_core_web_sm')
+
 # -
 
 # gallery to be scraped (key = gallery name, value = gallery url)
@@ -16,13 +24,59 @@ gallery_2_url = {'Tate':'https://www.tate.org.uk/whats-on'}
 
 exhib_titles, exhib_dates, exhib_locations, exhib_intro, exhib_articles, exhib_urls = extract_gallery_info(gallery_2_url)
 
+# ------
+
+#Lemmatise all the following data: titles, locations, intro, articles: ONLY ARTICLES ARE USED IN THE SEARCH HOWEVER...
+exhib_titles_lemm = []
+for item in exhib_titles:
+    doc = nlp(item)
+    lemmatized_tokens = [token.lemma_ for token in doc]
+    lemmatized_item = ' '.join(lemmatized_tokens)
+
+    exhib_titles_lemm.append(lemmatized_item)
+
+exhib_locations_lemm = []
+for item in exhib_locations:
+    doc = nlp(item)
+    lemmatized_tokens = [token.lemma_ for token in doc]
+    lemmatized_item = ' '.join(lemmatized_tokens)
+
+    exhib_locations_lemm.append(lemmatized_item)
+
+exhib_intro_lemm = []
+for item in exhib_intro:
+    if item is not None:
+        doc = nlp(item)
+        lemmatized_tokens = [token.lemma_ for token in doc]
+        lemmatized_item = ' '.join(lemmatized_tokens)
+
+        exhib_intro_lemm.append(lemmatized_item)
+
+exhib_articles_lemm = []
+for item in exhib_articles:
+    doc = nlp(item)
+    lemmatized_tokens = [token.lemma_ for token in doc]
+    lemmatized_item = ' '.join(lemmatized_tokens)
+
+    exhib_articles_lemm.append(lemmatized_item)
+
+# Lemmatise query (beware - input should not be empty)
+def lemmatise_query(query):
+    doc = nlp(query)
+    lemmatized_tokens = [token.lemma_ for token in doc] 
+    query_lemm = ' '.join(lemmatized_tokens)
+
+    return query_lemm
+
+# -------
+
 tv = TfidfVectorizer(lowercase=True, sublinear_tf=True, use_idf=True, norm="l2")
-sparse_matrix_r = tv.fit_transform(exhib_articles).T.tocsr()        # sparse_matrix_r: 'r' for 'relevance'
+sparse_matrix_r = tv.fit_transform(exhib_articles_lemm).T.tocsr()        # sparse_matrix_r: 'r' for 'relevance'
 
 cv = CountVectorizer(lowercase=True, binary=True)   
-sparse_matrix_b = cv.fit_transform(exhib_articles).T.tocsr()        # sparse_matrix_b：'b' for 'boolean'
+sparse_matrix_b = cv.fit_transform(exhib_articles_lemm).T.tocsr()        # sparse_matrix_b：'b' for 'boolean'
 
-terms = cv.get_feature_names_out()                  
+terms = cv.get_feature_names_out()
 t2i = cv.vocabulary_ 
 
 d = {"and": "&", "or": "|", "not": "1 -", "(": "(", ")": ")"}       # boolean operators
@@ -130,7 +184,6 @@ def relevance_search(query):
             
     return idx_matches              
 
-
 # ------------------------------------------
 
 app = Flask(__name__)
@@ -143,7 +196,7 @@ def welcoming_message():
 @app.route('/search')
 def search():
     query = request.args.get('query')   # get query from URL variable
-
+    
     num_matches = 0
     idx_matches = []  
     search_mode = "Relevance Search"            # default search mode
@@ -152,8 +205,9 @@ def search():
     # query not empty or == None -> get all matching idx then
     if query:
         query = str(query).strip()      # remove starting & ending whitespaces
-        query_list = [query]
-        invalid_words = invalid_term(query, terms)
+        query_lemm = lemmatise_query(query)
+        query_list = [query_lemm]
+        invalid_words = invalid_term(query_lemm, terms)
 
         # do the searching if there's no invalid term in the query (those with "*" do not count as invalid)
         if not invalid_words:  
@@ -182,7 +236,7 @@ def search():
                     for idx in idx_matches_per_loop: # prevent repetitions
                         if idx not in idx_matches:
                             idx_matches.append(idx)
-                            
+
             # at least 1match found, then generate bar chart
             if idx_matches:
                  # count total number of matches
