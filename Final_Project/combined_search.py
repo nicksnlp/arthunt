@@ -56,19 +56,21 @@ exhib_articles_lemm = []
 people_mentioned_by_articles = []
 for item in exhib_articles:
     peoples_list = []
+    peoples_list_no_duplicates = []
     doc = nlp(item)
     lemmatized_tokens = [token.lemma_ for token in doc]
     lemmatized_item = ' '.join(lemmatized_tokens)
 
     
     for ent in doc.ents:
-        if ent.label_ == "PERSON":        
-            peoples_list.append(ent)
+        if ent.label_ == "PERSON" and ent.text not in exhib_locations:        
+            peoples_list.append(ent.text)
 
     if peoples_list:
-        people_mentioned_by_articles.append(peoples_list)
+        peoples_list_no_duplicates = list(set(peoples_list))
+        people_mentioned_by_articles.append(peoples_list_no_duplicates)
     else:
-        people_mentioned_by_articles.append([])
+        people_mentioned_by_articles.append(["None"])
 
     exhib_articles_lemm.append(lemmatized_item)
 

@@ -68,7 +68,7 @@
       {% for idx in idx_matches %}
       <div class="results">
         <h1>{{exhib_titles[idx]}}</h1>
-	<p>People Mentioned: {{people_mentioned_by_articles[idx]}}</p>
+	<p>People and Entities Mentioned: {{", ".join(people_mentioned_by_articles[idx])}}</p>
         <p>Date: {{exhib_dates[idx]}}</p>
         <p>Location: {{exhib_locations[idx]}}</p>
         <p class="intro">"{{exhib_intro[idx]}}"</p>
