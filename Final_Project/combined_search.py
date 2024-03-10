@@ -258,18 +258,21 @@ def search():
             # then do the search
             for q in query_list:
                 
-                # 1: boolean search  
-                if boolean_detector(q): 
-                    if is_wildcard:   
-                        search_mode = "Boolean + Wildcard Search"
-                    else:
-                        search_mode = "Boolean Search"    
+                # 1: boolean search
+                try:
+                    if boolean_detector(q): 
+                        if is_wildcard:   
+                            search_mode = "Boolean + Wildcard Search"
+                        else:
+                            search_mode = "Boolean Search"    
 
-                    idx_matches_per_loop = boolean_search(q)
+                        idx_matches_per_loop = boolean_search(q)
 
-                    for idx in idx_matches_per_loop: # prevent repetitionss
-                        if idx not in idx_matches:
-                            idx_matches.append(idx)
+                        for idx in idx_matches_per_loop: # prevent repetitionss
+                            if idx not in idx_matches:
+                                idx_matches.append(idx)
+                except:
+                    pass
 
                 # 2: relevance search    
                 else:     
