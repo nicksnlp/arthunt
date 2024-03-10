@@ -53,10 +53,22 @@ for item in exhib_intro:
         exhib_intro_lemm.append(lemmatized_item)
 
 exhib_articles_lemm = []
+people_mentioned_by_articles = []
 for item in exhib_articles:
+    peoples_list = []
     doc = nlp(item)
     lemmatized_tokens = [token.lemma_ for token in doc]
     lemmatized_item = ' '.join(lemmatized_tokens)
+
+    
+    for ent in doc.ents:
+        if ent.label_ == "PERSON":        
+            peoples_list.append(ent)
+
+    if peoples_list:
+        people_mentioned_by_articles.append(peoples_list)
+    else:
+        people_mentioned_by_articles.append([])
 
     exhib_articles_lemm.append(lemmatized_item)
 
@@ -264,4 +276,5 @@ def search():
                            exhib_intro = exhib_intro, 
                            exhib_articles = exhib_articles,
                            exhib_urls = exhib_urls,
+                           people_mentioned_by_articles = people_mentioned_by_articles                     
                            )
