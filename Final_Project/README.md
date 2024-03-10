@@ -23,7 +23,7 @@ The search engine has 4 different search modes. Search mode will be automaticall
 
 ### NOTE: 
 - To activate the Boolean Search mode, the logic operator in a query needs to be used in an acceptable way (e.g., a query such as "and cat" will be considered illegal, and the Boolean Search mode will not be activated. Instead, Relevance Search will take over in this case).
-- On the other hand, if there exists any word that's not in the vocabulary, the Boolean Search mode will also not activate (e.g., "sdfsd and cdcda").
+- On the other hand, if there is any word in the query that's not in the vocabulary, the Boolean Search mode will also not activate (e.g., a query like "sdfsd and cdcda").
 
 ## How to run the search engine:
 
