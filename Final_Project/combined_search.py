@@ -251,7 +251,7 @@ def search():
                 bar_generator(exhib_locations, match_locations, naming_query)
 
     return render_template('index_combined.html', 
-                           query = query_lemm, 
+                           query = query, 
                            naming_query = naming_query,
                            idx_matches = idx_matches, 
                            num_matches = num_matches,
