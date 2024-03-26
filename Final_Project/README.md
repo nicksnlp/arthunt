@@ -1,6 +1,6 @@
 # About our project:
 
-Hi! We are team IKEA Meatballs!
+Hi! We are team IKEA Meatballs (XinyanMO and nicksnlp)!
 Our project is a search engine for on-going and upcoming art exhibitions at different branches of Tate galleries.
 You can search for exhibition info with a query!
 
