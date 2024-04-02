@@ -16,9 +16,20 @@
       href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
       rel="stylesheet"
     />
+	
 
     <div class="wrapper">
-      <div class="label">Gallery Now!</div>
+      	<div class="label">Gallery Now!
+	<form action="/scrape" method="POST">
+        <button type="submit">Scrape the WEB again</button> (<-- this may take some time!)
+	</form>
+	{% if scrape_message %}
+   	 <div class="label">
+   	   <p class="message">{{ scrape_message }}</p>
+   	 </div>
+   	{% endif %}
+    </div>
+    
       <div class="searchBar">
         <form action="/search" method="GET">
           <input
@@ -103,5 +114,6 @@
       </p>
     </div>
     {% endif %}
+
   </body>
 </html>
