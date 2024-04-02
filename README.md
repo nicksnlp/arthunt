@@ -1,6 +1,34 @@
 # About our project:
 
-Hi! We are team IKEA Meatballs (XinyanMO and nicksnlp)!
+This is a continuation of a team-project IKEA Meatballs (https://github.com/zccwqdoorchid/IKEA-meatballs/tree/main/Final_Project) by XinyanMO and nicksnlp, and zccwqdoorchid.
+
+
+The project runs on flask and requires the following libraries: <strong>scikit-learn, spacy, beautifulsoup</strong>.
+
+
+
+The following improvements have been made:
+
+Wildcard search, bugs fixed.
+
+Boolean search, bugs fixed.
+
+The structure of the project: the functions are moved into a class GallerySearch within gallery_search.py, from where the call of the web_scraping.py and data_visualization.py are initiated.
+
+The main flask_app.py handles the html, and feeds the url-link and the query from user into the
+gallery_search.py.
+
+
+This way the project can be easier handled by web hosting environments, and/or incorporated into other applications.
+
+
+More improvemnents on the way:
+1.Front Page design.
+2.Other webpages to scrap.
+
+Below is the description of the original project:
+-------
+Hi! We are team IKEA Meatballs (XinyanMO and nicksnlp, and )!
 Our project is a search engine for on-going and upcoming art exhibitions at different branches of Tate galleries.
 You can search for exhibition info with a query!
 
@@ -66,7 +94,7 @@ Then, set up the following environment variables and run Flask:
 On Linux terminal
 
 ```
-export FLASK_APP=combined_search.py
+export FLASK_APP=flask_app.py
 export FLASK_DEBUG=True
 export FLASK_RUN_PORT=5000
 flask run

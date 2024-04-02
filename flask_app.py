@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request
-from data_visualization import bar_generator
 from gallery_search import GallerySearch
 
 app = Flask(__name__)
