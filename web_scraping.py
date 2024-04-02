@@ -3,7 +3,7 @@ import json
 from bs4 import BeautifulSoup
 import requests
 
-#data_file_path = "scraped_data.json"
+data_file_path = "scraped_data.json"
 
 '''
 FUNCTION INPUT:
@@ -30,8 +30,8 @@ NOTE: any missing info will be stored as None type in the lists;
       thus,in all 5 lists, the same index number should point to the SAME exhibition!
 '''
 
-##DATA IN THE FILE IS NOT IMPLEMENTED CURRENTLY, UNCOMMENT IF RELEVANT -- 4 positions 6, 35-45, 49-52, 156-165...
-"""
+##DATA-file IN THE code IS IMPLEMENTED, comment if IF not needed -- 4 positions 6, 35-45, 49-52, 156-165...
+
 def load_data_from_file(data_file_path):
     try:
         with open(data_file_path, 'r') as file:
@@ -43,14 +43,14 @@ def load_data_from_file(data_file_path):
 def save_data_to_file(data, data_file_path):
     with open(data_file_path, 'w') as file:
         json.dump(data, file)
-"""
+
 def extract_gallery_info(gallery_2_url):
     # Check if data exists in the file
-    """
+    
     saved_data = load_data_from_file(data_file_path)
     if saved_data:
-        return saved_data
-    """
+        return saved_data.values() # MAKE SURE TO RETURN VALUES OF THE DICTIONARIES IN .json DATA_FILE
+    
     # Data not found in file, proceed with scraping
     # initialize 6 types of info from each exhibition
     exhib_titles = []         # 1. titles
@@ -153,7 +153,7 @@ def extract_gallery_info(gallery_2_url):
         else:
             current_url = ''
     
-    """
+    
     # After scraping, save the data to the file
     data = {
         'titles': exhib_titles,
@@ -164,6 +164,6 @@ def extract_gallery_info(gallery_2_url):
         'urls': exhib_urls
     }
     save_data_to_file(data, data_file_path)
-    """
+    
 
     return exhib_titles, exhib_dates, exhib_locations, exhib_intro, exhib_articles, exhib_urls

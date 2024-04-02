@@ -10,16 +10,14 @@ The following improvements have been made:
 2.Boolean search, bugs fixed.\
 3.The structure of the project: the functions are moved into a class GallerySearch within gallery_search.py, from where the call of the web_scraping.py and data_visualization.py are initiated.\
 4.The main flask_app.py handles the html, and feeds the url-link and the query from user into the gallery_search.py.\
-
+5.Scraping data is saved into an external file data/scraped_data.json. If it is not present the new scraping is inititated (may take around 5 minutes to complete). (some bugs appeared in vectorize_articles, sort it out later)\
 
 This way the project can be easier handled by web hosting environments, and/or incorporated into other applications.
 
-More improvmnents on the way:
-
-5.Scraping data is saved into an external file data/scraped_data.json. If it is not present the new scraping is inititated (may take around 5 minutes to complete). (some bugs appeared in vectorize_articles, sort it out later)\
-
+More improvements on the way:
+6. "Rescrape the net"-button on the page
 6.Front Page design.\
-7.Other webpages to scrap.
+(7.Other webpages to scrap.)
 
 Below is the description of the original project:
 -------

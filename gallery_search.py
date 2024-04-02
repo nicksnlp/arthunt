@@ -9,7 +9,7 @@ Make sure this is done:
 # pip install -U spacy -- MAKE SURE THIS IS DONE
 # python -m spacy download en_core_web_sm  -- MAKE SURE THIS IS DONE (may be python3 needed)
 
-or unocomment the following:
+or uncomment the following(but it may not work):
 
 try:
     import spacy
@@ -58,10 +58,13 @@ class GallerySearch:
     def vectorize_articles(self, articles_list):    # sparse_matrix_r: 'r' for 'relevance', sparse_matrix_b：'b' for 'boolean'
         tv = TfidfVectorizer(lowercase=True, sublinear_tf=True, use_idf=True, norm="l2")
         sparse_matrix_r = tv.fit_transform(articles_list).T.tocsr()
+        
         cv = CountVectorizer(lowercase=True, binary=True)
         sparse_matrix_b = cv.fit_transform(articles_list).T.tocsr()
+        
         terms = cv.get_feature_names_out()
         t2i = cv.vocabulary_
+        
         return tv, sparse_matrix_r, cv, sparse_matrix_b, terms, t2i
 
     def boolean_detector(self, query):    # decides whether to run boolean / relevance search
