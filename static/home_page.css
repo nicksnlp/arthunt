@@ -39,3 +39,13 @@ button:hover{
   background-color: rgb(132, 168, 165);
   color:beige;
 }
+
+#loading-bar {
+	width: 0%;
+	background-color: #4CAF50;
+	height: 30px;
+	text-align: center;
+	line-height: 30px;
+	color: white;
+	margin:auto
+	}
