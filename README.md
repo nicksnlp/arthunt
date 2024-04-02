@@ -116,7 +116,7 @@ Then, set up the following environment variables and run Flask:
 On Linux terminal
 
 ```
-export FLASK_APP=flask_app.py
+export FLASK_APP=combined_search.py
 export FLASK_DEBUG=True
 export FLASK_RUN_PORT=5000
 flask run
