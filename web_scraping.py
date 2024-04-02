@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 from bs4 import BeautifulSoup
 import requests
 
@@ -27,9 +28,25 @@ all exhibitions'...
 NOTE: any missing info will be stored as None type in the lists; 
       thus,in all 5 lists, the same index number should point to the SAME exhibition!
 '''
+def load_data_from_file(scraped_data.json):
+    try:
+        with open(file_path, 'r') as file:
+            data = json.load(file)
+        return data
+    except FileNotFoundError:
+        return None
+
+def save_data_to_file(data, scraped_data.json):
+    with open(file_path, 'w') as file:
+        json.dump(data, file)
 
 def extract_gallery_info(gallery_2_url):
-
+    # Check if data exists in the file
+    saved_data = load_data_from_file(data_file_path)
+    if saved_data:
+        return saved_data
+    
+    # Data not found in file, proceed with scraping
     # initialize 6 types of info from each exhibition
     exhib_titles = []         # 1. titles
     exhib_dates = []          # 2. dates
@@ -131,4 +148,16 @@ def extract_gallery_info(gallery_2_url):
         else:
             current_url = ''
 
+    # After scraping, save the data to the file
+    data = {
+        'titles': exhib_titles,
+        'dates': exhib_dates,
+        'locations': exhib_locations,
+        'intro': exhib_intro,
+        'articles': exhib_articles,
+        'urls': exhib_urls
+    }
+    save_data_to_file(data, scraped_data.json)
+
+    
     return exhib_titles, exhib_dates, exhib_locations, exhib_intro, exhib_articles, exhib_urls
