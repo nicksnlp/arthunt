@@ -33,7 +33,7 @@ pip install -U scikit-learn
 
 clone the repository:
 ```
-git clone git@github.com:nicksnlp/arthunt
+git clone git@github.com:nicksnlp/arthunt.git
 cd arthunt
 ```
 
