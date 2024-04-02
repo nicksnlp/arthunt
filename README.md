@@ -6,18 +6,47 @@ The project runs on <strong>flask</strong> and requires the following libraries:
 
 The following improvements have been made:
 
-1.Wildcard search, bugs fixed.\
-2.Boolean search, bugs fixed.\
-3.The structure of the project: the functions are moved into a class GallerySearch within gallery_search.py, from where the call of the web_scraping.py and data_visualization.py are initiated.\
-4.The main flask_app.py handles the html, and feeds the url-link and the query from user into the gallery_search.py.\
-5.Scraping data is saved into an external file data/scraped_data.json. If it is not present the new scraping is inititated (may take around 5 minutes to complete). (some bugs appeared in vectorize_articles, sort it out later)\
+1.Wildcard search, bugs fixed.\\
+2.Boolean search, bugs fixed.\\
+3.The structure of the project: the functions are moved into a class GallerySearch within gallery_search.py, from where the call of the web_scraping.py and data_visualization.py are initiated.\\
+4.The main flask_app.py handles the html, and feeds the url-link and the query from user into the gallery_search.py.\\
+5.Scraping data is saved into an external scraped_data.json, as a dictionary. If it is not present there, the new scraping is initiated (may take around 5 minutes to complete).\
+6."Scrape the WEB again" button on the loading page. Removes the data, initiates the new scraping process.
 
 This way the project can be easier handled by web hosting environments, and/or incorporated into other applications.
 
-More improvements on the way:
-6. "Rescrape the net"-button on the page
-6.Front Page design.\
-(7.Other webpages to scrap.)
+The project can be tested with the following commands:
+
+Mac/Linux users:
+
+Setting up the environment (python3 is already installed):
+
+```
+python3 -m venv demoenv
+. demoenv/bin/activate
+pip install Flask
+pip install -U spacy
+python -m spacy download en_core_web_sm
+pip install beautifulsoup4
+pip install -U scikit-learn
+```
+
+clone the repository:
+```
+git clone git@github.com:nicksnlp/arthunt
+cd arthunt
+```
+
+Run the flask:
+```
+export FLASK_APP=flask_app.py  
+export FLASK_DEBUG=True  
+export FLASK_RUN_PORT=8000
+```
+
+Then in your browser open: "http://127.0.0.1:8000"
+
+
 
 Below is the description of the original project:
 -------
