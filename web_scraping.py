@@ -28,7 +28,7 @@ all exhibitions'...
 NOTE: any missing info will be stored as None type in the lists; 
       thus,in all 5 lists, the same index number should point to the SAME exhibition!
 '''
-def load_data_from_file(scraped_data.json):
+def load_data_from_file(data/scraped_data.json):
     try:
         with open(file_path, 'r') as file:
             data = json.load(file)
@@ -36,13 +36,13 @@ def load_data_from_file(scraped_data.json):
     except FileNotFoundError:
         return None
 
-def save_data_to_file(data, scraped_data.json):
+def save_data_to_file(data, data/scraped_data.json):
     with open(file_path, 'w') as file:
         json.dump(data, file)
 
 def extract_gallery_info(gallery_2_url):
     # Check if data exists in the file
-    saved_data = load_data_from_file(data_file_path)
+    saved_data = load_data_from_file(data/scraped_data.json)
     if saved_data:
         return saved_data
     
@@ -157,7 +157,7 @@ def extract_gallery_info(gallery_2_url):
         'articles': exhib_articles,
         'urls': exhib_urls
     }
-    save_data_to_file(data, scraped_data.json)
+    save_data_to_file(data, data/scraped_data.json)
 
     
     return exhib_titles, exhib_dates, exhib_locations, exhib_intro, exhib_articles, exhib_urls
