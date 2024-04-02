@@ -44,7 +44,7 @@ export FLASK_DEBUG=True
 export FLASK_RUN_PORT=8000
 ```
 
-Then in your browser open: "http://127.0.0.1:8000"
+Then in your browser open: http://127.0.0.1:8000
 
 
 
