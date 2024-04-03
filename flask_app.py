@@ -3,7 +3,7 @@ from gallery_search import GallerySearch
 import os
 
 def clear_data():
-    # remove the plot after it has been passed to render:
+    # remove old plots:
     for filename in os.listdir('./static/'):
         if filename.startswith('query_') and filename.endswith('_plot.png'):
             filepath = os.path.join('./static/', filename)

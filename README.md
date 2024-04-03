@@ -12,12 +12,13 @@ The following improvements have been made:
 4.The main flask_app.py handles the html, and feeds the url-link and the query from user into the gallery_search.py.\
 5.Scraping data is saved into an external scraped_data.json, as a dictionary. If it is not present there, the new scraping is initiated (may take around 5 minutes to complete).\
 6."Scrape the WEB again" button on the loading page. Removes the data, initiates the new scraping process.\
-7. Old plot-files are deleted on restart and/or after new scraping initiated.
+7. Old plot-files are deleted on restart and/or after new scraping initiated.\
+8. Project is deployed on nicksnlp.pythonanywhere.com
 
 This way the project can be easier handled by web hosting environments, and/or incorporated into other applications.
 
 FUTURE IMPROVEMENTS:\
-8. to deploy the project on pythonanywhere (make matplotlib to save plots properly, see error log)\
+8. some bugs in boolean search
 9. include neural search
 
 The project can be tested with the following commands:
