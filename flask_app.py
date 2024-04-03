@@ -4,9 +4,9 @@ import os
 
 def clear_data():
     # remove the plot after it has been passed to render:
-    for filename in os.listdir('static/'):
+    for filename in os.listdir('./static/'):
         if filename.startswith('query_') and filename.endswith('_plot.png'):
-            filepath = os.path.join('static/', filename)
+            filepath = os.path.join('./static/', filename)
             os.remove(filepath)
 
 #------
@@ -31,7 +31,7 @@ def search():
 @app.route('/scrape', methods=['POST'])
 def scrape():
 
-    data_file_path = 'scraped_data.json'
+    data_file_path = './static/scraped_data.json'
     if os.path.exists(data_file_path):
         os.remove(data_file_path)
         scrape_message = "Old JSON file removed. Scraping restarted."

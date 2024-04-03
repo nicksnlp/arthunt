@@ -3,7 +3,7 @@ import json
 from bs4 import BeautifulSoup
 import requests
 
-data_file_path = "scraped_data.json"
+data_file_path = "./static/scraped_data.json"
 
 '''
 FUNCTION INPUT:
