@@ -13,7 +13,7 @@ The following improvements have been made:
 5.Scraping data is saved into an external scraped_data.json, as a dictionary. If it is not present there, the new scraping is initiated (may take around 5 minutes to complete).\
 6."Scrape the WEB again" button on the loading page. Removes the data, initiates the new scraping process.\
 7. Old plot-files are deleted on restart and/or after new scraping initiated.\
-8. Project is deployed on [nicksnlp.pythonanywhere.com](nicksnlp.pythonanywhere.com)
+8. Project is deployed on [nicksnlp.pythonanywhere.com](http://nicksnlp.pythonanywhere.com/)
 
 This way the project can be easier handled by web hosting environments, and/or incorporated into other applications.
 
