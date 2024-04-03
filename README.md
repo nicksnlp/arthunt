@@ -15,8 +15,8 @@ The following improvements have been made:
 
 This way the project can be easier handled by web hosting environments, and/or incorporated into other applications.
 
-FUTURE IMPROVEMNTS:
-7. to deploy the project on pythonanywhere
+FUTURE IMPROVEMeNTS:\
+7. to deploy the project on pythonanywhere\
 8. include neural search
 
 The project can be tested with the following commands:
