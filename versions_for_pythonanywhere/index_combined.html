@@ -1,0 +1,119 @@
+<!-- NOTE: background image is from freepik (copyright-free) -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Tate!Hunt</title>
+    <link rel="icon" href="../static/favicon.ico" type="image/x-icon" />
+
+    <!-- css file that renders this webpage -->
+    <link rel="stylesheet" href="../static/search_page.css" />
+  </head>
+
+  <body>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+	
+
+    <div class="wrapper">
+      	<div class="label">Gallery Now!
+	<form action="/scrape" method="POST">
+        <button type="submit">Scrape the WEB again</button> (<-- this may take some time!)
+	</form>
+	{% if scrape_message %}
+   	 <div class="label">
+   	   <p class="message">{{ scrape_message }}</p>
+   	 </div>
+   	{% endif %}
+    </div>
+    
+      <div class="searchBar">
+        <form action="/search" method="GET">
+          <input
+            id="query"
+            type="text"
+            name="query"
+            placeholder="input query + hit Enter"
+            value=""
+          />
+        </form>
+      </div>
+    </div>
+
+    <div class="search-guide">
+      <p class="head-box">
+        SEARCH GUIDE:<br />
+        Relevant Search: (default)<br />
+        Boolean Search: activates automatically by including "and","or", "not"
+        or round brackets in your query<br />
+        Wildcard Search: activates automatically by including "*" in your
+        query<br />
+        NOTE: Lemmatization will be applied for Relevant Search when Wildcard
+        Search is not activated
+      </p>
+    </div>
+
+    <!-- display the following info ONLY when there is a query entered -->
+    {% if query %}
+    <div class="search-guide">
+      <p class="message">
+        Searching For: {{query}}<br />
+        Current Search Mode: {{search_mode}}<br />
+        Total Matches: {{ num_matches }}
+      </p>
+    </div>
+    <!-- there's at least 1 match, print relevant info -->
+    {% if num_matches %}
+
+    <!-- display the bar chart (distribution of galleries within all search results)! -->
+    <div class="search-guide">
+      <p class="content">
+        Your exhibitions are happening at these locations:<br />
+      </p>
+      <img
+        src="././static/query_{{ naming_query }}_plot.png"
+        style="width: 600px; height: 100%"
+      />
+    </div>
+    <ul>
+      {% for idx in idx_matches %}
+      <div class="results">
+        <h1>{{exhib_titles[idx]}}</h1>
+        <p>
+          People and Entities Mentioned: {{",
+          ".join(people_mentioned_by_articles[idx])}}
+        </p>
+        <p>Date: {{exhib_dates[idx]}}</p>
+        <p>Location: {{exhib_locations[idx]}}</p>
+        <p class="intro">"{{exhib_intro[idx]}}"</p>
+        <p class="content">{{exhib_articles[idx][:500]}}...</p>
+
+        <!-- to each exhibition's page on tate website -->
+        <a href="{{exhib_urls[idx]}}">
+          <button type="button">more info</button>
+        </a>
+      </div>
+      {% endfor %}
+    </ul>
+
+    <!-- no match found -->
+    {% else %}
+    <div class="search-guide">
+      <p class="message">No results found.</p>
+    </div>
+    {% endif %}
+
+    <!-- no query entered yet -->
+    {% else %}
+    <div class="search-guide">
+      <p class="message">
+        Put some keywords in the search box and give it a try!
+      </p>
+    </div>
+    {% endif %}
+
+  </body>
+</html>
