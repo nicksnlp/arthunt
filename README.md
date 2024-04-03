@@ -11,13 +11,14 @@ The following improvements have been made:
 3.The structure of the project: the functions are moved into a class GallerySearch within gallery_search.py, from where the call of the web_scraping.py and data_visualization.py are initiated.\
 4.The main flask_app.py handles the html, and feeds the url-link and the query from user into the gallery_search.py.\
 5.Scraping data is saved into an external scraped_data.json, as a dictionary. If it is not present there, the new scraping is initiated (may take around 5 minutes to complete).\
-6."Scrape the WEB again" button on the loading page. Removes the data, initiates the new scraping process.
+6."Scrape the WEB again" button on the loading page. Removes the data, initiates the new scraping process.\
+7. Old plot-files are deleted on restart and/or after new scraping initiated.
 
 This way the project can be easier handled by web hosting environments, and/or incorporated into other applications.
 
 FUTURE IMPROVEMENTS:\
-7. to deploy the project on pythonanywhere (make matplotlib to save plots properly, see error log)\
-8. include neural search
+8. to deploy the project on pythonanywhere (make matplotlib to save plots properly, see error log)\
+9. include neural search
 
 The project can be tested with the following commands:
 
