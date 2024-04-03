@@ -29,6 +29,7 @@ pip install -U spacy
 python -m spacy download en_core_web_sm
 pip install beautifulsoup4
 pip install -U scikit-learn
+pip install -U matplotlib
 ```
 
 clone the repository:
