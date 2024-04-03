@@ -13,7 +13,7 @@ The following improvements have been made:
 5.Scraping data is saved into an external scraped_data.json, as a dictionary. If it is not present there, the new scraping is initiated (may take around 5 minutes to complete).\
 6."Scrape the WEB again" button on the loading page. Removes the data, initiates the new scraping process.\
 7. Old plot-files are deleted on restart and/or after new scraping initiated.\
-8. Project is deployed on nicksnlp.pythonanywhere.com
+8. Project is deployed on [nicksnlp.pythonanywhere.com](nicksnlp.pythonanywhere.com)
 
 This way the project can be easier handled by web hosting environments, and/or incorporated into other applications.
 
@@ -55,8 +55,8 @@ Then in your browser open: http://127.0.0.1:8000
 
 
 
-Below is the description of the original project:
--------
+###Below is the description of the original project:
+
 Hi! We are team IKEA Meatballs (XinyanMO, nicksnlp, and zccwqdoorchid)!
 Our project is a search engine for on-going and upcoming art exhibitions at different branches of Tate galleries.
 You can search for exhibition info with a query!
