@@ -19,7 +19,8 @@ This way the project can be easier handled by web hosting environments, and/or i
 
 FUTURE IMPROVEMENTS:\
 8. some bugs in boolean search
-9. include neural search
+9. highlight words found in the text
+10. include neural search
 
 The project can be tested with the following commands:
 
