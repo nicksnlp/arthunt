@@ -31,6 +31,10 @@ li {
     padding: 10px;
 }
 
+.left-margin {
+    margin-left: 5rem;
+}
+
 .image {
     position: relative;
     top: 20px;
