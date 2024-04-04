@@ -24,17 +24,22 @@ class GallerySearch:
     def __init__(self, gallery_url):
         self.gallery_url = gallery_url
         self.nlp = spacy.load('en_core_web_sm')
-        self.boolean_operators = {"and": "&", "or": "|", "not": "1 -", "(": "(", ")": ")"}
+        self.boolean_operators = {"and": "&", "or": "|", "not": "1 -", "(": "(", ")": ")"} # formerly known as "d"
+        
         self.exhib_titles, self.exhib_dates, self.exhib_locations, self.exhib_intro, self.exhib_articles, self.exhib_urls = extract_gallery_info(self.gallery_url)
-        self.exhib_titles_lemm, _ = self.lemmatize_text_with_ner(self.exhib_titles)
-        self.exhib_dates_lemm, _ = self.lemmatize_text_with_ner(self.exhib_dates)
-        self.exhib_locations_lemm, _ = self.lemmatize_text_with_ner(self.exhib_locations)
-        self.exhib_intro_lemm, _ = self.lemmatize_text_with_ner(self.exhib_intro)
+        
+#        self.exhib_titles_lemm, _ = self.lemmatize_text_with_ner(self.exhib_titles) # the second output left blank
+#        self.exhib_dates_lemm, _ = self.lemmatize_text_with_ner(self.exhib_dates) # the second output left blank
+#        self.exhib_locations_lemm, _ = self.lemmatize_text_with_ner(self.exhib_locations) # the second output left blank
+#        self.exhib_intro_lemm, _ = self.lemmatize_text_with_ner(self.exhib_intro) # the second output left blank
+        
         self.exhib_articles_lemm, self.people_mentioned_by_articles = self.lemmatize_text_with_ner(self.exhib_articles)
+        
         self.tv, self.sparse_matrix_r, self.cv, self.sparse_matrix_b, self.terms, self.t2i = self.vectorize_articles(self.exhib_articles) # for NO lemmatization
         self.tv_lemm, self.sparse_matrix_r_lemm, self.cv_lemm, self.sparse_matrix_b_lemm, self.terms_lemm, self.t2i_lemm = self.vectorize_articles(self.exhib_articles_lemm) # for lemmatization:
 
-    def lemmatize_text_with_ner(self, text_list): #Lemmatize all the following data: titles, locations, intro, articles: ONLY ARTICLES ARE USED IN THE SEARCH HOWEVER...
+    #Lemmatize all the following data: titles, locations, intro, articles (ONLY ARTICLES ARE USED IN THE SEARCH HOWEVER...):
+    def lemmatize_text_with_ner(self, text_list):
         lemmatized_list = []
         people_mentioned_by_articles = []
         for item in text_list:
@@ -68,6 +73,7 @@ class GallerySearch:
         return tv, sparse_matrix_r, cv, sparse_matrix_b, terms, t2i
 
     def boolean_detector(self, query):    # decides whether to run boolean / relevance search
+        
         q_split = query.lower().split()
 
         # logic operators that should not appear at the start/end of the query (except for not)
@@ -135,15 +141,10 @@ class GallerySearch:
 
     def boolean_search(self, query):
         hits_matrix = eval(self.rewrite_query(query.lower()))
-        return list(hits_matrix.nonzero()[1])
-    """
-    def relevance_search(self, query, is_wildcard):
-        query_vec = self.tv.transform([query.lower()]).tocsc() if is_wildcard else self.tv_lemm.transform([query.lower()]).tocsc()
-        hits = np.dot(query_vec, self.sparse_matrix_r if not is_wildcard else self.sparse_matrix_r_lemm)
-        ranked_scores_and_doc_ids = sorted(zip(np.array(hits[hits.nonzero()])[0], hits.nonzero()[1]), reverse=True)
-        
-        return [r[1] for r in ranked_scores_and_doc_ids]
-    """
+        idx_matches = list(hits_matrix.nonzero()[1]) # indices of matching contents                
+
+        return idx_matches  
+
     def relevance_search(self, query, is_wildcard):  
         # use non-lemmatized matrix for wildcard search
         if is_wildcard:
@@ -175,13 +176,14 @@ class GallerySearch:
 
         # query not empty or == None -> get all matching idx then
         if query and not str(query).isspace():
-            query = str(query).strip()
+            query = str(query).strip()      # remove starting & ending whitespaces
             query_lemm = self.lemmatize_query(query)
             query_list = [query_lemm]
             invalid_words = self.invalid_term(query_lemm, self.terms_lemm)
 
             # do the searching if there's no invalid term in the query (those with "*" do not count as invalid)
             if not invalid_words:
+                # mark if the query nees wildcard search
                 is_wildcard = False
 
 
@@ -190,22 +192,42 @@ class GallerySearch:
                 if "*" in query:
                     search_mode = "Wildcard Search"
                     is_wildcard = True
+                    # update query list:
                     query_list = self.wildcard_parser(query, self.terms)
 
                 # then do the search
                 for q in query_list:
 
-                # 1: boolean search
-                    if self.boolean_detector(q):
-                        idx_matches.extend(self.boolean_search(q))
+                    # 1: boolean search
+                    if self.boolean_detector(q): 
+                        if is_wildcard:   
+                            search_mode = "Boolean + Wildcard Search"
+                        else:
+                            search_mode = "Boolean Search"
 
-                # 2: relevance search    
+                        idx_matches_per_loop = self.boolean_search(q)
+
+                        for idx in idx_matches_per_loop: # prevent repetitions
+                            if idx not in idx_matches:
+                                idx_matches.append(idx)
+
+                    # 2: relevance search    
                     else:
-                        idx_matches.extend(self.relevance_search(q, is_wildcard))
+                        #idx_matches.extend(self.relevance_search(q, is_wildcard))
+                        if is_wildcard:   
+                            search_mode = "Relevance + Wildcard Search"
+                                              
+                        idx_matches_per_loop = self.relevance_search(q, is_wildcard)
+
+                        for idx in idx_matches_per_loop: # prevent repetitions
+                            if idx not in idx_matches:
+                                idx_matches.append(idx)
 
                 # at least 1match found, then generate bar chart
                 if idx_matches:
+                    # count total number of matches
                     num_matches = len(idx_matches)
+                    
                     # cannot have "*" in file name, do some replacements
                     naming_query = query_list[0]
                     if "*" in query:

@@ -17,8 +17,7 @@ The following improvements have been made:
 
 This way the project can be easier handled by web hosting environments, and/or incorporated into other applications.
 
-FUTURE IMPROVEMENTS:\
-8. some bugs in boolean search
+POSSIBLE FUTURE IMPROVEMENTS:\
 9. highlight words found in the text
 10. include neural search
 
