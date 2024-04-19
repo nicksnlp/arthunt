@@ -34,7 +34,7 @@ def search():
     search_data = gallery_search.search(query)
     return render_template('index_combined.html', **search_data)
 
-### with help of CHATGPT and some thinking
+### with help of CHATGPT and some thinking and rewriting
 @app.route('/scrape', methods=['POST'])
 def scrape():
 
@@ -62,4 +62,4 @@ def scrape():
     clear_data()
     return render_template('index_combined.html', scrape_message=scrape_message)
 
-### CHATGPT ends, thinking never ends...
+### CHATGPT ends, writing ends, thinking never ends...
