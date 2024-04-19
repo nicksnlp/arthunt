@@ -14,6 +14,7 @@ def clear_data():
 app = Flask(__name__)
 data_file_path = './static/scraped_data.json'
 
+#check if date exist on start-up and download from a back-up if not. This allows th gallery_search not to fail on start-up.
 if os.path.exists(data_file_path):
     pass
 else:
