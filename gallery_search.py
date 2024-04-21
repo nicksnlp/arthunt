@@ -232,20 +232,34 @@ class GallerySearch:
         # query contains multiple whitespaces
         elif str(query).isspace():
             query = None
-
-        return {
-                'query': query,
-                'naming_query': naming_query,
-                'idx_matches': idx_matches,
-                'num_matches': num_matches,
-                'search_mode': search_mode,
-                'exhib_titles': self.exhib_titles, 
-                'exhib_dates': self.exhib_dates, 
-                'exhib_locations': self.exhib_locations, 
-                'exhib_intro': self.exhib_intro, 
-                'exhib_articles': self.exhib_articles,
-                'exhib_urls': self.exhib_urls,
-                'people_mentioned_by_articles': self.people_mentioned_by_articles                     
-        }
-
+        if query != None:
+            return {
+                    'query': str(query + ", matching : " + ", ".join(query_list)),
+                    'naming_query': naming_query,
+                    'idx_matches': idx_matches,
+                    'num_matches': num_matches,
+                    'search_mode': search_mode,
+                    'exhib_titles': self.exhib_titles, 
+                    'exhib_dates': self.exhib_dates, 
+                    'exhib_locations': self.exhib_locations, 
+                    'exhib_intro': self.exhib_intro, 
+                    'exhib_articles': self.exhib_articles,
+                    'exhib_urls': self.exhib_urls,
+                    'people_mentioned_by_articles': self.people_mentioned_by_articles                     
+            }
+        else:
+            return {
+                    'query': query,
+                    'naming_query': naming_query,
+                    'idx_matches': idx_matches,
+                    'num_matches': num_matches,
+                    'search_mode': search_mode,
+                    'exhib_titles': self.exhib_titles, 
+                    'exhib_dates': self.exhib_dates, 
+                    'exhib_locations': self.exhib_locations, 
+                    'exhib_intro': self.exhib_intro, 
+                    'exhib_articles': self.exhib_articles,
+                    'exhib_urls': self.exhib_urls,
+                    'people_mentioned_by_articles': self.people_mentioned_by_articles                     
+            }
         
