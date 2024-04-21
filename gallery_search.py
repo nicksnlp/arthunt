@@ -180,7 +180,7 @@ class GallerySearch:
             # NOT activating lemmatization if using wildcard
                 if "*" in query:
                     search_mode = "Wildcard Search"
-                    is_wildcard = True
+                    is_wildcard = True #!!!
                     # update query list:
                     query_list = self.wildcard_parser(query, self.terms)
 
@@ -230,7 +230,7 @@ class GallerySearch:
             query = None
 
         return {
-            'query': query,
+            'query': str(query +  ", matching: " + str(", ".join(query_list))),
             'naming_query': naming_query,
             'idx_matches': idx_matches,
             'num_matches': num_matches,
