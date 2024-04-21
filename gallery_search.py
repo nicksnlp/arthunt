@@ -127,7 +127,7 @@ class GallerySearch:
         
         # store all possible new queries to new_query_list
         for l in splited_query:
-            new_query_list.append(" ".join(l))    
+            new_query_list.append(" ".join(l))
 
         return new_query_list
 
