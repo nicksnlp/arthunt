@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-import itertools
+import itertools, re
 from web_scraping import extract_gallery_info
 from data_visualization import bar_generator
 """
@@ -111,22 +111,11 @@ class GallerySearch:
         # find the word with '*' 
         for idx, word in enumerate(splited_query):
             if "*" in word:
-                # ignores the middle part if there's more than 1 "*" in the word
-                prefix = word.split('*')[0]
-                suffix = word.split('*')[-1]
-
-                #possible replacements for the current word in query
-                replacement_words = []   
-                
-                # find all possible replacements
-                for t in terms:
-                    if t.startswith(prefix) and t.endswith(suffix):
-                        replacement_words.append(t)
-                        
+                #Nick's update 
                 # replace each word with '*' by a list of all possible replacement words from vocab
-                splited_query[idx] = replacement_words
-                
-            # if no '*' in the current word, just trun it into a list
+                splited_query[idx] = list(t for t in terms if re.fullmatch(word.replace('*', '.*'), t))
+                    
+            # if no '*' in the current word, just turn word it into a list
             else:
                 splited_query[idx] = [word]
             
