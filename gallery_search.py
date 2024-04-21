@@ -38,6 +38,9 @@ class GallerySearch:
         self.tv, self.sparse_matrix_r, self.cv, self.sparse_matrix_b, self.terms, self.t2i = self.vectorize_articles(self.exhib_articles) # for NO lemmatization
         self.tv_lemm, self.sparse_matrix_r_lemm, self.cv_lemm, self.sparse_matrix_b_lemm, self.terms_lemm, self.t2i_lemm = self.vectorize_articles(self.exhib_articles_lemm) # for lemmatization:
 
+        self.output_whole_list = False #to know that the whole list needs to be output, when wildcard is on.
+
+
     #Lemmatize all the following data: titles, locations, intro, articles (ONLY ARTICLES ARE USED IN THE SEARCH HOWEVER...):
     def lemmatize_text_with_ner(self, text_list):
         lemmatized_list = []
@@ -181,6 +184,7 @@ class GallerySearch:
                 if "*" in query:
                     search_mode = "Wildcard Search"
                     is_wildcard = True #!!!
+                    self.output_whole_list = True
                     # update query list:
                     query_list = self.wildcard_parser(query, self.terms)
 
@@ -230,16 +234,18 @@ class GallerySearch:
             query = None
 
         return {
-            'query': str(query +  ", matching: " + str(", ".join(query_list))),
-            'naming_query': naming_query,
-            'idx_matches': idx_matches,
-            'num_matches': num_matches,
-            'search_mode': search_mode,
-            'exhib_titles': self.exhib_titles, 
-            'exhib_dates': self.exhib_dates, 
-            'exhib_locations': self.exhib_locations, 
-            'exhib_intro': self.exhib_intro, 
-            'exhib_articles': self.exhib_articles,
-            'exhib_urls': self.exhib_urls,
-            'people_mentioned_by_articles': self.people_mentioned_by_articles                     
+                'query': query,
+                'naming_query': naming_query,
+                'idx_matches': idx_matches,
+                'num_matches': num_matches,
+                'search_mode': search_mode,
+                'exhib_titles': self.exhib_titles, 
+                'exhib_dates': self.exhib_dates, 
+                'exhib_locations': self.exhib_locations, 
+                'exhib_intro': self.exhib_intro, 
+                'exhib_articles': self.exhib_articles,
+                'exhib_urls': self.exhib_urls,
+                'people_mentioned_by_articles': self.people_mentioned_by_articles                     
         }
+
+        
