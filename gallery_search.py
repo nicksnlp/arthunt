@@ -93,7 +93,7 @@ class GallerySearch:
         return " ".join(self.boolean_operators.get(t, f'self.sparse_matrix_b[self.t2i["{t}"]].todense()') for t in query.split())
 
     def invalid_term(self, query, terms):
-        return ", ".join(t for t in query.lower().split() if '*' not in t and t not in terms)
+        return ", ".join(t for t in query.lower().split() if t not in terms)
 
     '''
     modifying the original wildcard search func: new name -> wildcard_parser
@@ -160,7 +160,7 @@ class GallerySearch:
     def search(self, query):
         num_matches = 0
         idx_matches = []
-        search_mode = "Relevance Search + Lemmatization"    # default search mode
+        search_mode = "None. Unknown words in the query."    # default search mode
         naming_query = ''   # for the naming of generated bar chart
         query_lemm = ''
 
@@ -169,43 +169,30 @@ class GallerySearch:
             query = str(query).strip()      # remove starting & ending whitespaces
             query_lemm = self.lemmatize_query(query)
             query_list = [query_lemm]
-            invalid_words = self.invalid_term(query_lemm, self.terms_lemm)
+            invalid_words = self.invalid_term(query, self.terms)
+            invalid_words_lemm = self.invalid_term(query_lemm, self.terms_lemm)
 
-            # do the searching if there's no invalid term in the query (those with "*" do not count as invalid)
-            if not invalid_words:
-                # mark if the query nees wildcard search
-                is_wildcard = False
-
-
-            # change query_list if there's any '*' in the input query
-            # NOT activating lemmatization if using wildcard
-                if "*" in query:
-                    search_mode = "Wildcard Search"
-                    is_wildcard = True #!!!
-                    # update query list:
-                    query_list = self.wildcard_parser(query, self.terms)
+            #WILDCARD SEARCH: BOOLEAN or RELEVANCE
+            if "*" in query:
+                is_wildcard = True
+                # update query list:
+                query_list = self.wildcard_parser(query, self.terms)
 
                 # then do the search
                 for q in query_list:
 
                     # 1: boolean search
-                    if self.boolean_detector(q): 
-                        if is_wildcard:   
-                            search_mode = "Boolean + Wildcard Search"
-                        else:
-                            search_mode = "Boolean Search"
-
+                    if self.boolean_detector(q):    
+                        search_mode = "Boolean + Wildcard Search"
                         idx_matches_per_loop = self.boolean_search(q)
-
+                        
                         for idx in idx_matches_per_loop: # prevent repetitions
                             if idx not in idx_matches:
                                 idx_matches.append(idx)
 
-                    # 2: relevance search    
+                    # 2: relevance search 
                     else:
-                        #idx_matches.extend(self.relevance_search(q, is_wildcard))
-                        if is_wildcard:   
-                            search_mode = "Relevance + Wildcard Search"
+                        search_mode = "Relevance + Wildcard Search"
                                               
                         idx_matches_per_loop = self.relevance_search(q, is_wildcard)
 
@@ -213,18 +200,46 @@ class GallerySearch:
                             if idx not in idx_matches:
                                 idx_matches.append(idx)
 
-                # at least 1match found, then generate bar chart
-                if idx_matches:
-                    # count total number of matches
-                    num_matches = len(idx_matches)
+            #BOOLEAN SEARCH
+            elif not invalid_words and self.boolean_detector(query):
+                search_mode = "Boolean Search"
+
+                idx_matches_per_loop = self.boolean_search(query)
+
+                for idx in idx_matches_per_loop: # prevent repetitions
+                    if idx not in idx_matches:
+                        idx_matches.append(idx)
+
+
+            # RELEVANCE SEARCH
+            # do the searching if there's no invalid term in the query
+            elif not invalid_words_lemm:
+                # mark that the query doesn't need wildcard search
+                is_wildcard = False
+
+                # then do the search
+                for q in query_list:
+
+                    search_mode = "Relevance Search + Lemmatization"
+                                          
+                    idx_matches_per_loop = self.relevance_search(q, is_wildcard)
+
+                    for idx in idx_matches_per_loop: # prevent repetitions
+                        if idx not in idx_matches:
+                            idx_matches.append(idx)
+
+            # at least 1match found, then generate bar chart
+            if idx_matches:
+                # count total number of matches
+                num_matches = len(idx_matches)
+                
+                # cannot have "*" in file name, do some replacements
+                naming_query = query_list[0]
+                if "*" in query:
+                    naming_query += '_etc'
                     
-                    # cannot have "*" in file name, do some replacements
-                    naming_query = query_list[0]
-                    if "*" in query:
-                        naming_query += '_etc'
-                        
-                    match_locations = [self.exhib_locations[idx] for idx in idx_matches]
-                    bar_generator(self.exhib_locations, match_locations, naming_query)
+                match_locations = [self.exhib_locations[idx] for idx in idx_matches]
+                bar_generator(self.exhib_locations, match_locations, naming_query)
 
         # query contains multiple whitespaces
         elif str(query).isspace():
