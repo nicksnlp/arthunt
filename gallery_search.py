@@ -164,7 +164,27 @@ class GallerySearch:
             for r in ranked_scores_and_doc_ids:
                 idx_matches.append(r[1])
 
-        return idx_matches              
+        return idx_matches
+
+    def remove_unknown_terms(self, query):
+        words = query.lower().split()
+        words_good = []
+
+        #Check that the word appears at least in lemmatised or non lemmatised vocabulary, remove it otherwise, with possible and/or/not preceding it
+        for i, word in enumerate(words):
+            
+            if (word in self.terms_lemm) or (word in self.terms):
+                
+                    words_good.append(word)
+
+            #check that the unknown word is not preceded by or/and/not, remove operator otherwise
+            if (word not in self.terms_lemm) and (word not in self.terms):
+                
+                if i >= 1 and words[i-1] == 'and' or words[i-1] == 'or' or words[i-1] == 'not':
+                    words_good.pop()
+
+        return " ".join(w for w in words_good)
+    
     
     def search(self, query):
         num_matches = 0
@@ -177,6 +197,7 @@ class GallerySearch:
         # query not empty or == None -> get all matching idx then
         if query and not str(query).isspace():
             query = str(query).strip()      # remove starting & ending whitespaces
+            query_known = self.remove_unknown_terms(query) ## REWRITE QUERY TO REMOVE UNKNOWN TERMS
             query_lemm = self.lemmatize_query(query)
             query_list = [query_lemm] #USING LEMMATISED QUERY
             invalid_words = self.invalid_term(query, self.terms)
@@ -255,7 +276,8 @@ class GallerySearch:
                 # RELEVANCE SEARCH with some invalid terms -- strategy, remove invalid terms and perform search without them
                 elif invalid_words_lemm or invalid_words:
 
-                    search_mode = "RELEVANT SEARCH. SOME TERMS ARE UNKNOWN. WORK IN PROGRESS"
+                    search_mode = "RELEVANT SEARCH. SOME TERMS ARE UNKNOWN."
+                    idx_matches = [] #no matches
 
             except:
                 
@@ -280,7 +302,7 @@ class GallerySearch:
             query = None
         if query != None:
             return {
-                    'query': str(query + ", matching : " + ", ".join(query_list)),
+                    'query': str(query + ", matching : " + ", ".join(query_list) + " rewritten query: " + query_known),
                     'naming_query': naming_query,
                     'idx_matches': idx_matches,
                     'num_matches': num_matches,
