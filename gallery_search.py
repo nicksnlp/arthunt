@@ -166,6 +166,7 @@ class GallerySearch:
 
         return idx_matches
 
+### REWRITE THE FOLLOWING FUNCTION
     def remove_unknown_terms(self, query):
         words = query.lower().split()
         words_good = []
@@ -192,8 +193,7 @@ class GallerySearch:
                 #remove preceding and/or/nor
                 if i >= 1 and (words[i-1] == 'and' or words[i-1] == 'or' or words[i-1] == 'not'):
                     if len(words_good) != 0: 
-                        words_good.pop()
-
+                        words_good.pop()        
                                 
         return " ".join(w for w in words_good)
     
@@ -201,7 +201,7 @@ class GallerySearch:
     def search(self, query):
         num_matches = 0
         idx_matches = []
-        search_mode = "None. Unknown words in the query."    # default search mode
+        search_mode = "None. Try different query."    # default search mode
         naming_query = ''   # for the naming of generated bar chart
         query_lemm = ''
 
@@ -216,7 +216,7 @@ class GallerySearch:
             invalid_words_lemm = self.invalid_term(query_lemm, self.terms_lemm)
 
             try:
-                #WILDCARD SEARCH: BOOLEAN or RELEVANCE
+                #WILDCARD SEARCH: BOOLEAN or RELEVANCE 
                 if "*" in query:
                     is_wildcard = True
                     # update query list:
@@ -244,9 +244,9 @@ class GallerySearch:
                                 if idx not in idx_matches:
                                     idx_matches.append(idx)                
 
-                # BOOLEAN SEARCH
+                # BOOLEAN SEARCH, unknown terms removed
                 #"am and cats" -- query, "be and cat" -- search
-                elif not invalid_words_lemm and self.boolean_detector(query):
+                elif self.boolean_detector(query):
 
                     search_mode = "Boolean Search + Lemmatization"
 
@@ -256,41 +256,19 @@ class GallerySearch:
                         if idx not in idx_matches:
                             idx_matches.append(idx)
 
-                #some words in the query are not in TERMS
-                #"am and unkwntrm" or "be and unkwntrm"
-                elif invalid_words_lemm and self.boolean_detector(query):
-                    #rewrite query
-                    search_mode = "Boolean Search. SOME TERMS ARE UNKNOWN"
-                    idx_matches = [] #no matches
-
-                    # TO DO: strip invalid terms and perform boolean search, beware of "cat and dog and painting"
-                    #new_query_no_invalid_words = ...
-                    
-                    #new_query_no_invalid_words = " ".join(word for word in query.lower().split() if word in self.terms) #not accurate what if: cat and dog and painting
-
-                # RELEVANCE SEARCH
-                # do the searching if there's no invalid term in the query
-                elif not invalid_words_lemm:
+                # RELEVANCE SEARCH, unknown terms removed 
+                else:
                     # mark that the query doesn't need wildcard search
                     is_wildcard = False
 
-                    # then do the search
-                    for q in query_list:
+                    search_mode = "Relevance Search + Lemmatization"
+                                          
+                    idx_matches_per_loop = self.relevance_search(query_lemm, is_wildcard)
 
-                        search_mode = "Relevance Search + Lemmatization"
-                                              
-                        idx_matches_per_loop = self.relevance_search(q, is_wildcard)
-
-                        for idx in idx_matches_per_loop: # prevent repetitions
-                            if idx not in idx_matches:
-                                idx_matches.append(idx)
-
-                # RELEVANCE SEARCH with some invalid terms -- strategy, remove invalid terms and perform search without them
-                elif invalid_words_lemm or invalid_words:
-
-                    search_mode = "RELEVANT SEARCH. SOME TERMS ARE UNKNOWN."
-                    idx_matches = [] #no matches
-
+                    for idx in idx_matches_per_loop: # prevent repetitions
+                        if idx not in idx_matches:
+                            idx_matches.append(idx)
+                                
             except:
                 
                 idx_matches = []
@@ -314,7 +292,7 @@ class GallerySearch:
             query = None
         if query != None:
             return {
-                    'query': str(query + ", matching : " + ", ".join(query_list) + " rewritten query: " + query_known),
+                    'query': str(query + " REWRITTEN QUERY: " + query_known  + ", matching : " + ", ".join(query_list)),
                     'naming_query': naming_query,
                     'idx_matches': idx_matches,
                     'num_matches': num_matches,
