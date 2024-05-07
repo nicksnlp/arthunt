@@ -191,8 +191,9 @@ class GallerySearch:
                 if words_good[n] == "not" and words_good[n+1] in ["and", "or"]:
                     words_good.pop(n)
 
-        if words_good[0] in ["and", "or"]:
-         words_good.pop(0)
+        
+        if words_good != [] and words_good[0] in ["and", "or"]:
+            words_good.pop(0)
                 
         new_query = " ".join(w for w in words_good)
 
@@ -215,20 +216,29 @@ class GallerySearch:
             invalid_words = self.invalid_term(query, self.terms)
             invalid_words_lemm = self.invalid_term(query_lemm, self.terms_lemm)
 
+
             try:
+                
                 #WILDCARD SEARCH: BOOLEAN or RELEVANCE 
                 if "*" in query:
                     is_wildcard = True
                     # update query list:
                     query_list = self.wildcard_parser(query, self.terms)
-
+                    q_known = ''
+                    wildcard_query_list_known = []
+                    
                     # then do the search
                     for q in query_list:
 
+                        q_known = self.remove_unknown_terms(q)
+                        wildcard_query_list_known.append(q_known)
+
+
                         # 1: boolean search
-                        if self.boolean_detector(q):    
+                        if self.boolean_detector(q):
+
                             search_mode = "Boolean + Wildcard Search"
-                            idx_matches_per_loop = self.boolean_search(q)
+                            idx_matches_per_loop = self.boolean_search(q_known)
                             
                             for idx in idx_matches_per_loop: # prevent repetitions
                                 if idx not in idx_matches:
@@ -236,14 +246,18 @@ class GallerySearch:
 
                         # 2: relevance search 
                         else:
+                                                        
                             search_mode = "Relevance + Wildcard Search"
                                                   
-                            idx_matches_per_loop = self.relevance_search(q, is_wildcard)
+                            idx_matches_per_loop = self.relevance_search(q_known, is_wildcard)
 
                             for idx in idx_matches_per_loop: # prevent repetitions
                                 if idx not in idx_matches:
-                                    idx_matches.append(idx)                
+                                    idx_matches.append(idx)
 
+                    query_list = wildcard_query_list_known
+
+                    
                 # BOOLEAN SEARCH, unknown terms removed
                 #"am and cats" -- query, "be and cat" -- search
                 elif self.boolean_detector(query):
