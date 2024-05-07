@@ -231,7 +231,7 @@ class GallerySearch:
                     idx_matches = [] #no matches
 
                     # TO DO: strip invalid terms and perform boolean search, beware of "cat and dog and painting"
-                    new_query_no_invalid_words =
+                    #new_query_no_invalid_words = ...
                     
                     #new_query_no_invalid_words = " ".join(word for word in query.lower().split() if word in self.terms) #not accurate what if: cat and dog and painting
 
