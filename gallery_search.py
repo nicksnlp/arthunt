@@ -171,32 +171,32 @@ class GallerySearch:
         words = query.lower().split()
         words_good = []
         last_one_was_bad = 0
+        new_query = ""
         
         #Check that the word appears at least in lemmatised or non lemmatised vocabulary, remove it otherwise, with possible and/or/not preceding it and following it
         for i, word in enumerate(words):
+
+            if (word in self.terms_lemm) or (word in self.terms) or (word in ["and", "or", "not"]):
+
+                words_good.append(word)
+                
+            elif i >= 1 and words[i-1] in ["and", "or"]:
+                words_good.pop()
+                print("pop", i)
+
+        #remove possible left-over operator after unknown word at the start of the sentence
+        for n, word in enumerate(words_good):
             
-            if (word in self.terms_lemm) or (word in self.terms):
+            if n < len(words_good):
+                if words_good[n] == "not" and words_good[n+1] in ["and", "or"]:
+                    words_good.pop(n)
 
-                #do not append and/or if follows the unknown word
-                if last_one_was_bad == 1 and (words[i] == 'and' or words[i] == 'or'):
-                    #do not append anything and proceed further
-                    last_one_was_bad = 0
+        if words_good[0] in ["and", "or"]:
+         words_good.pop(0)
+                
+        new_query = " ".join(w for w in words_good)
 
-                else:
-                    words_good.append(word)
-                    last_one_was_bad = 0
-
-            #check that the unknown word is not preceded by or/and/not, remove operator otherwise
-            if (word not in self.terms_lemm) and (word not in self.terms):
-
-                last_one_was_bad = 1
-                #remove preceding and/or/nor
-                if i >= 1 and (words[i-1] == 'and' or words[i-1] == 'or' or words[i-1] == 'not'):
-                    if len(words_good) != 0: 
-                        words_good.pop()        
-                                
-        return " ".join(w for w in words_good)
-    
+        return new_query
     
     def search(self, query):
         num_matches = 0
