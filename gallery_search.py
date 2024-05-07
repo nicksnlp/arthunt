@@ -169,20 +169,32 @@ class GallerySearch:
     def remove_unknown_terms(self, query):
         words = query.lower().split()
         words_good = []
-
-        #Check that the word appears at least in lemmatised or non lemmatised vocabulary, remove it otherwise, with possible and/or/not preceding it
+        last_one_was_bad = 0
+        
+        #Check that the word appears at least in lemmatised or non lemmatised vocabulary, remove it otherwise, with possible and/or/not preceding it and following it
         for i, word in enumerate(words):
             
             if (word in self.terms_lemm) or (word in self.terms):
-                
+
+                #do not append and/or if follows the unknown word
+                if last_one_was_bad == 1 and (words[i] == 'and' or words[i] == 'or'):
+                    #do not append anything and proceed further
+                    last_one_was_bad = 0
+
+                else:
                     words_good.append(word)
+                    last_one_was_bad = 0
 
             #check that the unknown word is not preceded by or/and/not, remove operator otherwise
             if (word not in self.terms_lemm) and (word not in self.terms):
-                
-                if i >= 1 and words[i-1] == 'and' or words[i-1] == 'or' or words[i-1] == 'not':
-                    words_good.pop()
 
+                last_one_was_bad = 1
+                #remove preceding and/or/nor
+                if i >= 1 and (words[i-1] == 'and' or words[i-1] == 'or' or words[i-1] == 'not'):
+                    if len(words_good) != 0: 
+                        words_good.pop()
+
+                                
         return " ".join(w for w in words_good)
     
     
@@ -198,7 +210,7 @@ class GallerySearch:
         if query and not str(query).isspace():
             query = str(query).strip()      # remove starting & ending whitespaces
             query_known = self.remove_unknown_terms(query) ## REWRITE QUERY TO REMOVE UNKNOWN TERMS
-            query_lemm = self.lemmatize_query(query)
+            query_lemm = self.lemmatize_query(query_known)
             query_list = [query_lemm] #USING LEMMATISED QUERY
             invalid_words = self.invalid_term(query, self.terms)
             invalid_words_lemm = self.invalid_term(query_lemm, self.terms_lemm)
