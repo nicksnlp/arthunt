@@ -92,6 +92,9 @@ class GallerySearch:
     def rewrite_query(self, query):  # rewrite query & convert retrieved rows to dense; rewrite every token in the query
         return " ".join(self.boolean_operators.get(t, f'self.sparse_matrix_b[self.t2i["{t}"]].todense()') for t in query.split())
 
+    def rewrite_query_lemm(self, query):  # rewrite query & convert retrieved rows to dense; rewrite every token in the query
+        return " ".join(self.boolean_operators.get(t, f'self.sparse_matrix_b[self.t2i_lemm["{t}"]].todense()') for t in query.split())
+
     def invalid_term(self, query, terms):
         return ", ".join(t for t in query.lower().split() if t not in terms)
 
@@ -135,6 +138,12 @@ class GallerySearch:
 
         return idx_matches  
 
+    def boolean_search_lemm(self, query):
+        hits_matrix = eval(self.rewrite_query_lemm(query.lower()))
+        idx_matches = list(hits_matrix.nonzero()[1]) # indices of matching contents                
+
+        return idx_matches  
+
     def relevance_search(self, query, is_wildcard):  
         # use non-lemmatized matrix for wildcard search
         if is_wildcard:
@@ -168,7 +177,7 @@ class GallerySearch:
         if query and not str(query).isspace():
             query = str(query).strip()      # remove starting & ending whitespaces
             query_lemm = self.lemmatize_query(query)
-            query_list = [query_lemm]
+            query_list = [query_lemm] #USING LEMMATISED QUERY
             invalid_words = self.invalid_term(query, self.terms)
             invalid_words_lemm = self.invalid_term(query_lemm, self.terms_lemm)
 
@@ -200,16 +209,45 @@ class GallerySearch:
                             if idx not in idx_matches:
                                 idx_matches.append(idx)
 
-            #BOOLEAN SEARCH
-            elif not invalid_words and self.boolean_detector(query):
-                search_mode = "Boolean Search"
 
-                idx_matches_per_loop = self.boolean_search(query)
+            
+
+            # BOOLEAN SEARCH
+            #"am and cats" -- query, "be and cat" -- search
+            elif not invalid_words_lemm and self.boolean_detector(query):
+
+                search_mode = "Boolean Search + Lemmatization"
+
+                idx_matches_per_loop = self.boolean_search_lemm(query_lemm)
 
                 for idx in idx_matches_per_loop: # prevent repetitions
                     if idx not in idx_matches:
                         idx_matches.append(idx)
 
+            #some words in the query are not in TERMS
+            #"am and unkwntrm" or "be and unkwntrm"
+            elif invalid_words_lemm and self.boolean_detector(query):
+                #rewrite query
+                search_mode = "Boolean Search -- SOME TERMS ARE UNKNOWN"
+                idx_matches = [] #no matches
+
+                # TO DO: strip invalid terms and perform boolean search, beware of "cat and dog and painting"
+
+                
+
+                """
+                
+                new_query_no_invalid_words = " ".join(word for word in query.lower().split() if word in self.terms) #not accurate what if: cat and dog and painting
+                print(new_query_no_invalid_words)
+                search_mode = "Boolean Search"
+                
+                idx_matches_per_loop = self.boolean_search(new_query_no_invalid_words)
+
+                for idx in idx_matches_per_loop: # prevent repetitions
+                    if idx not in idx_matches:
+                        idx_matches.append(idx)
+
+                """
 
             # RELEVANCE SEARCH
             # do the searching if there's no invalid term in the query
@@ -227,6 +265,22 @@ class GallerySearch:
                     for idx in idx_matches_per_loop: # prevent repetitions
                         if idx not in idx_matches:
                             idx_matches.append(idx)
+
+            # RELEVANCE SEARCH with some invalid terms -- strategy, remove invalid terms and perform search without them
+            elif invalid_words_lemm or invalid_words:
+
+                search_mode = "RELEVANT SEARCH with unknown words, WORK IN PROGRESS"
+            """    
+                # strip invalid terms and perform relevance search               
+                new_query_no_invalid_words = " ".join(word for word in query.lower().split() if word in self.terms)
+                
+                is_wildcard = False
+
+
+
+                for q in query_list:
+            """
+                            
 
             # at least 1match found, then generate bar chart
             if idx_matches:
