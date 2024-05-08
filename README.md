@@ -13,9 +13,9 @@ The following improvements have been made:
 5.Scraping data is saved into an external scraped_data.json, as a dictionary. If it is not present there, the new scraping is initiated (may take around 5 minutes to complete).\
 6."Scrape the WEB again" button on the loading page. Removes the data, initiates the new scraping process.\
 7. Old plot-files are deleted on restart and/or after new scraping initiated.\
-8. Project is deployed on [nicksnlp.pythonanywhere.com](http://nicksnlp.pythonanywhere.com/)
-9. Search structure modified, queries preprocessing added, removes unknown words.
-10. Lemmatisation included into all search modes.
+8. Project is deployed on [nicksnlp.pythonanywhere.com](http://nicksnlp.pythonanywhere.com/) \
+9. Search structure modified, queries preprocessing added, that removes unknown words. \
+10. Lemmatisation included into all search modes. \
 
 This way the project can be easier handled by web hosting environments, and/or incorporated into other applications.
 
@@ -55,9 +55,11 @@ export FLASK_RUN_PORT=8000
 Then in your browser open: http://127.0.0.1:8000
 
 
-# A more thorough description of the project:
+# A detailed description of the project:
 
 This project is a search engine for on-going and upcoming art exhibitions at different branches of Tate galleries. You can search for exhibition info with a query!
+
+The search is based on a saved search data in .json format, which speeds-up the launch of the program. A new search can be initiated by pressing "Scape the WEB again" button on the search-page (this is performed automatically in case the data is missing for some reason, e.g. interrupted process in a previous session). Depending on whether the sraping-process succeeds or not, the relevant message is displayed under the search bar.
 
 Based on the search results found, a bar chart will be generated, showing the distribution (i.e., numbers) of relevant exhibition(s) at each of Tate's branch galleries; for each exhibition in the search results, the following information will be displayed:
 
