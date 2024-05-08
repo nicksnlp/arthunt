@@ -88,7 +88,7 @@ and combination of those with Wildcard search:
 
 In this version lemmatisation is applied to search modes 1 and 3.
 
-Also, in the updated version, a preprocessing of queries has been added. It effectively activates search when receiving queries like: "and cat", as well as removes unknown words from the query, including in those with "*". This is displayed in the output.
+Also, in this updated version, a preprocessing of queries has been added. It effectively activates search when receiving queries like: "and cat", as well as removes unknown words from the query, including in those with "*". This is displayed in the output.
 
 ## Demo example:
 
