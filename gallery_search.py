@@ -95,8 +95,8 @@ class GallerySearch:
     def rewrite_query_lemm(self, query):  # rewrite query & convert retrieved rows to dense; rewrite every token in the query
         return " ".join(self.boolean_operators.get(t, f'self.sparse_matrix_b[self.t2i_lemm["{t}"]].todense()') for t in query.split())
 
-    def invalid_term(self, query, terms):
-        return ", ".join(t for t in query.lower().split() if t not in terms)
+#    def invalid_term(self, query, terms):
+#        return ", ".join(t for t in query.lower().split() if t not in terms)
 
     '''
     modifying the original wildcard search func: new name -> wildcard_parser
@@ -226,43 +226,60 @@ class GallerySearch:
             query_known = self.remove_unknown_terms(query) ## REWRITE QUERY TO REMOVE UNKNOWN TERMS
             query_lemm = self.lemmatize_query(query_known)
             query_list = [query_lemm] #USING LEMMATISED QUERY
-            invalid_words = self.invalid_term(query, self.terms)
-            invalid_words_lemm = self.invalid_term(query_lemm, self.terms_lemm)
+            #invalid_words = self.invalid_term(query, self.terms)
+            #invalid_words_lemm = self.invalid_term(query_lemm, self.terms_lemm)
 
 
             try:
                 
                 #WILDCARD SEARCH: BOOLEAN or RELEVANCE 
                 if "*" in query:
+
+                    search_mode = "Wildcard Search"
+                    
                     is_wildcard = True
                     # update query list:
                     query_list = self.wildcard_parser(query, self.terms)
                     q_known = ''
+                    q_lemm = ''
                     wildcard_query_list_known = []
                     
                     # then do the search
-                    for q in query_list:
 
-                        q_known = self.remove_unknown_terms(q)
-                        wildcard_query_list_known.append(q_known)
+                    # 1: boolean search. #DO NOT REMOVE UNKNOWN TERMS in BOOLEAN SEARCH
+                    if self.boolean_detector(query):
 
+                        for q in query_list:
 
-                        # 1: boolean search
-                        if self.boolean_detector(q):
+                            #remove unkown words
+                            q_known = self.remove_unknown_terms(q)
+                            #lemmatise query
+                            q_lemm = self.lemmatize_query(q_known)
+                            #append to the list queries that the search will be performed on
+                            wildcard_query_list_known.append(q_lemm)
 
                             search_mode = "Boolean + Wildcard Search"
-                            idx_matches_per_loop = self.boolean_search(q_known)
+                            idx_matches_per_loop = self.boolean_search_lemm(q_lemm)
                             
                             for idx in idx_matches_per_loop: # prevent repetitions
                                 if idx not in idx_matches:
                                     idx_matches.append(idx)
 
-                        # 2: relevance search 
-                        else:
-                                                        
+                    # 2: relevance search 
+                    else:
+
+                        for q in query_list:
+
+                            #remove unkown words
+                            q_known = self.remove_unknown_terms(q)
+                            #lemmatise query
+                            q_lemm = self.lemmatize_query(q_known)
+                            #append to the list queries that the search will be performed on
+                            wildcard_query_list_known.append(q_lemm)
+
                             search_mode = "Relevance + Wildcard Search"
                                                   
-                            idx_matches_per_loop = self.relevance_search(q_known, is_wildcard)
+                            idx_matches_per_loop = self.relevance_search(q_lemm, is_wildcard)
 
                             for idx in idx_matches_per_loop: # prevent repetitions
                                 if idx not in idx_matches:
@@ -319,7 +336,7 @@ class GallerySearch:
             query = None
         if query != None:
             return {
-                    'query': str(query + ". Processed query (unknown terms removed): " + query_known  + ". Matching : " + ", ".join(query_list)),
+                    'query': str(query + ". Processed query (unknown terms removed): " + query_known  + ". Matching: " + ", ".join(query_list)),
                     'naming_query': naming_query,
                     'idx_matches': idx_matches,
                     'num_matches': num_matches,
