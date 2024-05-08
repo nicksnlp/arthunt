@@ -14,14 +14,15 @@ The following improvements have been made:
 6."Scrape the WEB again" button on the loading page. Removes the data, initiates the new scraping process.\
 7. Old plot-files are deleted on restart and/or after new scraping initiated.\
 8. Project is deployed on [nicksnlp.pythonanywhere.com](http://nicksnlp.pythonanywhere.com/)
+9. Search structure modified, queries preprocessing added, removes unknown words.
+10. Lemmatisation included into all search modes.
 
 This way the project can be easier handled by web hosting environments, and/or incorporated into other applications.
 
 POSSIBLE FUTURE IMPROVEMENTS:\
 9. highlight words found in the text
-10. include neural search
 
-The project can be tested with the following commands:
+The project can be run with the following commands:
 
 Mac/Linux users:
 
@@ -54,12 +55,9 @@ export FLASK_RUN_PORT=8000
 Then in your browser open: http://127.0.0.1:8000
 
 
+# A more thorough description of the project:
 
-###Below is the description of the original project:
-
-Hi! We are team IKEA Meatballs (XinyanMO, nicksnlp, and zccwqdoorchid)!
-Our project is a search engine for on-going and upcoming art exhibitions at different branches of Tate galleries.
-You can search for exhibition info with a query!
+This project is a search engine for on-going and upcoming art exhibitions at different branches of Tate galleries. You can search for exhibition info with a query!
 
 Based on the search results found, a bar chart will be generated, showing the distribution (i.e., numbers) of relevant exhibition(s) at each of Tate's branch galleries; for each exhibition in the search results, the following information will be displayed:
 
@@ -73,81 +71,17 @@ Based on the search results found, a bar chart will be generated, showing the di
 
 The search engine has 4 different search modes. Search mode will be automatically selected based on the content of the query (and the activated search mode for an input query will be displayed). The search modes include the following:
 
-1. Relevance Search with lemmatisation (the default mode)
-2. Boolean Search WITHOUT lemmatisation (activated automatically if the query contains logic operator(s), including 'and', 'or', 'not', and brackets)\*
+1. Relevance Search
+2. Boolean Search (activated automatically if the query contains logic operator(s), including 'and', 'or', 'not', and brackets)\*
+
+and combination of those with Wildcard search:
+
 3. Wildcard + Relevance Search (activated automatically if the query contains "\*")
 4. Wildcard + Boolean Search (activated automatically if the query contains "\*" + logic operator)
 
-### NOTE: 
-- To activate the Boolean Search mode, the logic operator in a query needs to be used in an acceptable way (e.g., a query such as "and cat" will be considered illegal, and the Boolean Search mode will not be activated. Instead, Relevance Search will take over in this case).
-- On the other hand, if there is any word in the query that's not in the vocabulary, the Boolean Search mode will also not activate (e.g., a query like "sdfsd and cdcda").
+In this updated version lemmatisation is applied to all the search modes.
 
-## How to run the search engine:
-
-Our search engine is not a public website; it can only run on a local device.
-To run this search engine, one needs to set up and activate a virtual environment, and install <strong>Flask</strong>.
-The following libraries are also need to be installed in the environment: <strong>scikit-learn, spacy, beautifulsoup</strong>.
-
-### To set up
-
-For Mac users:
-
-```
-python3 -m venv demoenv
-. demoenv/bin/activate
-pip install Flask
-```
-
-For Windows users:
-
-```
-py -3 -m venv demoenv
-demoenv/Scripts/activate
-pip install Flask
-```
-
-### Running the project
-
-After everything has been set, let's start running the search engine!
-Here is an example of how to run it:
-
-The project directory is called "Final_Project", which is under the cloned repository "IKEA-meatballs-main":
-
-```
-git clone git@github.com:zccwqdoorchid/IKEA-meatballs.git
-cd IKEA-meatballs-main\Final_Project
-```
-
-Then, set up the following environment variables and run Flask:
-
-On Linux terminal
-
-```
-export FLASK_APP=combined_search.py
-export FLASK_DEBUG=True
-export FLASK_RUN_PORT=5000
-flask run
-```
-
-On Windows command line:
-
-```
-set FLASK_APP=combined_search.py
-set FLASK_DEMO=True
-set FLASK_RUN_PORT=5000
-flask run
-```
-
-On Windows PowerShell:
-
-```
-$env:FLASK_APP = "combined_search.py"
-$env:FLASK_DEMO = "True"
-$env:FLASK_RUN_PORT = "5000"
-flask run
-```
-
-After that, open a browser and go to "http://127.0.0.1:5000". Now the search engine is at your disposal.
+Also, in this updated version, a preprocessing of queries has been added. It effectively activates search when receiving queris like: "and cat", as well as removes unknown words from a query, including in such as with "*", and then applies a relevant search mode to the query. This is displayed in the output.
 
 ## Demo example:
 

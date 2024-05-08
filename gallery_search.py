@@ -286,7 +286,7 @@ class GallerySearch:
                 #"am and cats" -- query, "be and cat" -- search
                 elif self.boolean_detector(query):
 
-                    search_mode = "Boolean Search + Lemmatization"
+                    search_mode = "Boolean Search"
 
                     idx_matches_per_loop = self.boolean_search_lemm(query_lemm)
 
@@ -299,7 +299,7 @@ class GallerySearch:
                     # mark that the query doesn't need wildcard search
                     is_wildcard = False
 
-                    search_mode = "Relevance Search + Lemmatization"
+                    search_mode = "Relevance Search"
                                           
                     idx_matches_per_loop = self.relevance_search(query_lemm, is_wildcard)
 
