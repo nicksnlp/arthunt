@@ -166,7 +166,6 @@ class GallerySearch:
 
         return idx_matches
 
-### REWRITE THE FOLLOWING FUNCTION
     def remove_unknown_terms(self, query):
         words = query.lower().split()
         words_good = []
@@ -176,25 +175,39 @@ class GallerySearch:
         #Check that the word appears at least in lemmatised or non lemmatised vocabulary, remove it otherwise, with possible and/or/not preceding it and following it
         for i, word in enumerate(words):
 
-            if (word in self.terms_lemm) or (word in self.terms) or (word in ["and", "or", "not"]):
+            if (word in self.terms_lemm) or (word in self.terms) or (word in ["and", "or", "not", "(", ")"]):
 
                 words_good.append(word)
                 
             elif i >= 1 and words[i-1] in ["and", "or"]:
                 words_good.pop()
                 print("pop", i)
-
-        #remove possible left-over operator after unknown word at the start of the sentence
+                
+        
         for n, word in enumerate(words_good):
-            
+
+            #go over the list, and mark tracing "not"-words for removal, without changing the length of list
             if n < len(words_good):
                 if words_good[n] == "not" and words_good[n+1] in ["and", "or"]:
-                    words_good.pop(n)
+                    words_good[n] = "xx_remove"
+
+        #remove "xx_remove"
+        words_good = [w for w in words_good if w != "xx_remove"]
 
         
+        #remove possible left-over operator after unknown word at the start of the sentence
         if words_good != [] and words_good[0] in ["and", "or"]:
             words_good.pop(0)
-                
+            
+        #remove left-over operators after bracket "("
+        for k, w in enumerate(words_good):
+            
+            if k > 0 and w in ["and", "or"] and words_good[k-1] == "(":
+                    words_good[k] = "xx_remove"
+            
+        #remove "xx_remove"
+        words_good = [w for w in words_good if w != "xx_remove"]
+                            
         new_query = " ".join(w for w in words_good)
 
         return new_query
