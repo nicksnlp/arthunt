@@ -6,12 +6,12 @@ The project runs on <strong>flask</strong> and requires the following libraries:
 
 The following improvements have been made:
 
-1.Wildcard search, bugs fixed.\
-2.Boolean search, bugs fixed.\
-3.The structure of the project: the functions are moved into a class GallerySearch within gallery_search.py, from where the call of the web_scraping.py and data_visualization.py are initiated.\
-4.The main flask_app.py handles the html, and feeds the url-link and the query from user into the gallery_search.py.\
-5.Scraping data is saved into an external scraped_data.json, as a dictionary. If it is not present there, the new scraping is initiated (may take around 5 minutes to complete).\
-6."Scrape the WEB again" button on the loading page. Removes the data, initiates the new scraping process.\
+1. Wildcard search, bugs fixed.\
+2. Boolean search, bugs fixed.\
+3. The structure of the project: the functions are moved into a class GallerySearch within gallery_search.py, from where the call of the web_scraping.py and data_visualization.py are initiated.\
+4. The main flask_app.py handles the html, and feeds the url-link and the query from user into the gallery_search.py.\
+5. Scraping data is saved into an external scraped_data.json, as a dictionary. If it is not present there, the new scraping is initiated (may take around 5 minutes to complete).\
+6. "Scrape the WEB again" button on the loading page. Removes the data, initiates the new scraping process.\
 7. Old plot-files are deleted on restart and/or after new scraping initiated.\
 8. Project is deployed on [nicksnlp.pythonanywhere.com](http://nicksnlp.pythonanywhere.com/) \
 9. Search structure modified, queries preprocessing added, that removes unknown words. \
