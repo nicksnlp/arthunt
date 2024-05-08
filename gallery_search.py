@@ -240,7 +240,7 @@ class GallerySearch:
                     
                     # then do the search
 
-                    # 1: boolean search. #DO NOT REMOVE UNKNOWN TERMS in BOOLEAN SEARCH
+                    # 1: boolean search. #Unknown words removed, unlemmatised search
                     if self.boolean_detector(query):
 
                         for q in query_list:
@@ -248,12 +248,16 @@ class GallerySearch:
                             #remove unkown words
                             q_known = self.remove_unknown_terms(q)
                             #lemmatise query
-                            q_lemm = self.lemmatize_query(q_known)
-                            #append to the list queries that the search will be performed on
-                            wildcard_query_list_known.append(q_lemm)
-
+                            #q_lemm = self.lemmatize_query(q_known)
+                            
+                            #append to the list queries that the search will be performed on#
+#                            wildcard_query_list_known.append(q_lemm)
+                            wildcard_query_list_known.append(q_known)
+                            
                             search_mode = "Boolean + Wildcard Search"
-                            idx_matches_per_loop = self.boolean_search_lemm(q_lemm)
+                            
+#                            idx_matches_per_loop = self.boolean_search_lemm(q_lemm)
+                            idx_matches_per_loop = self.boolean_search(q_known)
                             
                             for idx in idx_matches_per_loop: # prevent repetitions
                                 if idx not in idx_matches:
@@ -282,17 +286,20 @@ class GallerySearch:
                     query_list = wildcard_query_list_known
 
                     
-                # BOOLEAN SEARCH, unknown terms removed
-                #"am and cats" -- query, "be and cat" -- search
+                # BOOLEAN SEARCH, unknown terms removed, use unlemmatised
                 elif self.boolean_detector(query):
 
                     search_mode = "Boolean Search"
 
-                    idx_matches_per_loop = self.boolean_search_lemm(query_lemm)
-
+#                    idx_matches_per_loop = self.boolean_search_lemm(query_lemm)                    
+                    idx_matches_per_loop = self.boolean_search(query_known)
+                    
                     for idx in idx_matches_per_loop: # prevent repetitions
                         if idx not in idx_matches:
                             idx_matches.append(idx)
+
+                    query_list = [query_known] #USING UNLEMMATISED QUERY
+
 
                 # RELEVANCE SEARCH, unknown terms removed 
                 else:
@@ -306,6 +313,9 @@ class GallerySearch:
                     for idx in idx_matches_per_loop: # prevent repetitions
                         if idx not in idx_matches:
                             idx_matches.append(idx)
+
+                    query_list = [query_lemm] #USING LEMMATISED QUERY
+
                                 
             except:
                 
@@ -328,6 +338,7 @@ class GallerySearch:
         # query contains multiple whitespaces
         elif str(query).isspace():
             query = None
+            
         if query != None:
             return {
                     'query': str(query + ". Processed query (unknown terms removed): " + query_known  + ". Matching: " + ", ".join(query_list)),
@@ -343,6 +354,7 @@ class GallerySearch:
                     'exhib_urls': self.exhib_urls,
                     'people_mentioned_by_articles': self.people_mentioned_by_articles                     
             }
+        
         else:
             return {
                     'query': query,

@@ -15,13 +15,13 @@ The following improvements have been made:
 7. Old plot-files are deleted on restart and/or after new scraping initiated.
 8. Project is deployed on [nicksnlp.pythonanywhere.com](http://nicksnlp.pythonanywhere.com/)
 9. Search structure modified, queries preprocessing added, that removes unknown words.
-10. Lemmatisation included into all search modes.
+10. Lemmatisation improved in search modes Relevance + Wildcard.
 
 This way the project can be easier handled by web hosting environments, and/or incorporated into other applications.
 
 POSSIBLE FUTURE IMPROVEMENTS:
 
-11. Improve Boolean search.
+11. Improve Boolean search: add lemmatised search into "d*g and cats", "paints and cats".
 
 12. highlight words found in the text
 
@@ -86,7 +86,7 @@ and combination of those with Wildcard search:
 3. Wildcard + Relevance Search (activated automatically if the query contains "\*")
 4. Wildcard + Boolean Search (activated automatically if the query contains "\*" + logic operator)
 
-In this updated version lemmatisation is applied to all the search modes.
+In this version lemmatisation is applied to search modes 1 and 3.
 
 Also, in the updated version, a preprocessing of queries has been added. It effectively activates search when receiving queries like: "and cat", as well as removes unknown words from the query, including in those with "*". This is displayed in the output.
 
