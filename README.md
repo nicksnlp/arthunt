@@ -79,7 +79,7 @@ Based on the search results found, a bar chart will be generated, showing the di
 The search engine has 4 different search modes. Search mode will be automatically selected based on the content of the query (and the activated search mode for an input query will be displayed). The search modes include the following:
 
 1. Relevance Search
-2. Boolean Search (activated automatically if the query contains logic operator(s), including 'and', 'or', 'not', and brackets)\*
+2. Boolean Search (activated automatically if the query contains logic operator(s), including 'and', 'or', 'not', and brackets, use brackets with spaces before/after)
 
 and combination of those with Wildcard search:
 
