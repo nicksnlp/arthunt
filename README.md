@@ -60,7 +60,7 @@ export FLASK_RUN_PORT=8000
 Then in your browser open: http://127.0.0.1:8000
 
 
-# A detailed description of the project:
+## A detailed description of the project:
 
 This project is a search engine for on-going and upcoming art exhibitions at different branches of Tate galleries. You can search for exhibition info with a query!
 
