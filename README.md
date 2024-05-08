@@ -21,7 +21,9 @@ This way the project can be easier handled by web hosting environments, and/or i
 
 POSSIBLE FUTURE IMPROVEMENTS:
 
-9. highlight words found in the text
+12. Improve Boolean search.
+
+11. highlight words found in the text
 
 ### Running the project:
 
