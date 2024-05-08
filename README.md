@@ -19,7 +19,8 @@ The following improvements have been made:
 
 This way the project can be easier handled by web hosting environments, and/or incorporated into other applications.
 
-POSSIBLE FUTURE IMPROVEMENTS:\
+## POSSIBLE FUTURE IMPROVEMENTS:
+
 9. highlight words found in the text
 
 The project can be run with the following commands:
