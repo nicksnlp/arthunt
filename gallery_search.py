@@ -175,7 +175,7 @@ class GallerySearch:
         #Check that the word appears at least in lemmatised or non lemmatised vocabulary, remove it otherwise, with possible and/or/not preceding it and following it
         for i, word in enumerate(words):
 
-            if (word in self.terms_lemm) or (word in self.terms) or (word in ["and", "or", "not", "(", ")"]):
+            if (word in self.terms_lemm) or (word in self.terms) or (word in ["and", "or", "not", "(", ")"]) or ('*' in word):
 
                 words_good.append(word)
                 
@@ -319,7 +319,7 @@ class GallerySearch:
             query = None
         if query != None:
             return {
-                    'query': str(query + " REWRITTEN QUERY: " + query_known  + ", matching : " + ", ".join(query_list)),
+                    'query': str(query + ". Processed query (unknown terms removed): " + query_known  + ". Matching : " + ", ".join(query_list)),
                     'naming_query': naming_query,
                     'idx_matches': idx_matches,
                     'num_matches': num_matches,
