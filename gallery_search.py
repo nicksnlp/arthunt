@@ -172,10 +172,10 @@ class GallerySearch:
         last_one_was_bad = 0
         new_query = ""
         
-        #Check that the word appears at least in lemmatised or non lemmatised vocabulary, remove it otherwise, with possible and/or/not preceding it and following it
+        #Check that the word appears at least in lemmatised form within lemmatised vocabulary, remove it otherwise, with possible and/or/not preceding it and following it
         for i, word in enumerate(words):
 
-            if (word in self.terms_lemm) or (word in self.terms) or (word in ["and", "or", "not", "(", ")"]) or ('*' in word):
+            if (self.lemmatize_query(word) in self.terms_lemm) or (word in self.terms) or (word in ["and", "or", "not", "(", ")"]) or ('*' in word):
 
                 words_good.append(word)
                 
