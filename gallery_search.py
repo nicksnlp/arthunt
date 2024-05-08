@@ -95,9 +95,6 @@ class GallerySearch:
     def rewrite_query_lemm(self, query):  # rewrite query & convert retrieved rows to dense; rewrite every token in the query
         return " ".join(self.boolean_operators.get(t, f'self.sparse_matrix_b[self.t2i_lemm["{t}"]].todense()') for t in query.split())
 
-#    def invalid_term(self, query, terms):
-#        return ", ".join(t for t in query.lower().split() if t not in terms)
-
     '''
     modifying the original wildcard search func: new name -> wildcard_parser
     now this func will only output list of queries with "*" replaced by all possible words in the vocab 
@@ -226,9 +223,6 @@ class GallerySearch:
             query_known = self.remove_unknown_terms(query) ## REWRITE QUERY TO REMOVE UNKNOWN TERMS
             query_lemm = self.lemmatize_query(query_known)
             query_list = [query_lemm] #USING LEMMATISED QUERY
-            #invalid_words = self.invalid_term(query, self.terms)
-            #invalid_words_lemm = self.invalid_term(query_lemm, self.terms_lemm)
-
 
             try:
                 
