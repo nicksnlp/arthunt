@@ -59,7 +59,7 @@ Then in your browser open: http://127.0.0.1:8000
 
 This project is a search engine for on-going and upcoming art exhibitions at different branches of Tate galleries. You can search for exhibition info with a query!
 
-The search is based on a saved search data in .json format, which speeds-up the launch of the program. A new search can be initiated by pressing "Scape the WEB again" button on the search-page (this is performed automatically in case the data is missing for some reason, e.g. interrupted process in a previous session). Depending on whether the sraping-process succeeds or not, the relevant message is displayed under the search bar.
+The search is based on a saved search data in .json format, which speeds-up the launch of the program. A new search can be initiated by pressing "Scape the WEB again" button on the search-page (this is performed automatically in case the data is missing for some reason, e.g. interrupted process in a previous session). Depending on whether the scraping-process succeeds or not, the relevant message is displayed under the search bar.
 
 Based on the search results found, a bar chart will be generated, showing the distribution (i.e., numbers) of relevant exhibition(s) at each of Tate's branch galleries; for each exhibition in the search results, the following information will be displayed:
 
@@ -83,7 +83,7 @@ and combination of those with Wildcard search:
 
 In this updated version lemmatisation is applied to all the search modes.
 
-Also, in this updated version, a preprocessing of queries has been added. It effectively activates search when receiving queris like: "and cat", as well as removes unknown words from a query, including in such as with "*", and then applies a relevant search mode to the query. This is displayed in the output.
+Also, in the updated version, a preprocessing of queries has been added. It effectively activates search when receiving queries like: "and cat", as well as removes unknown words from the query, including in those with "*". This is displayed in the output.
 
 ## Demo example:
 
