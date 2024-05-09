@@ -86,7 +86,7 @@ and combination of those with Wildcard search:
 3. Wildcard + Relevance Search (activated automatically if the query contains "\*")
 4. Wildcard + Boolean Search (activated automatically if the query contains "\*" + logic operator)
 
-In this version lemmatisation is applied to search modes 1 and 3.
+In this version lemmatisation is applied to search modes 1 and 3. Exact search is performed on queries containing Boolean operators.
 
 Also, in this updated version, a preprocessing of queries has been added. It effectively activates search when receiving queries like: "and cat", as well as removes unknown words from the query, including in those with "*". This is displayed in the output.
 

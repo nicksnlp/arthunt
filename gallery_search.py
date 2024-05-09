@@ -287,7 +287,7 @@ class GallerySearch:
 
                     
                 # BOOLEAN SEARCH, unknown terms removed, use unlemmatised
-                elif self.boolean_detector(query):
+                elif self.boolean_detector(query_known): # apply detector after removing unknown words
 
                     search_mode = "Boolean Search"
 
