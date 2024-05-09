@@ -2,6 +2,7 @@
 import json
 from bs4 import BeautifulSoup
 import requests
+import shutil
 
 data_file_path = "./static/scraped_data.json"
 
@@ -29,8 +30,6 @@ all exhibitions'...
 NOTE: any missing info will be stored as None type in the lists; 
       thus,in all 5 lists, the same index number should point to the SAME exhibition!
 '''
-
-##DATA-file IN THE code IS IMPLEMENTED, comment if IF not needed -- 4 positions 6, 35-45, 49-52, 156-165...
 
 def load_data_from_file(data_file_path):
     try:
@@ -164,6 +163,8 @@ def extract_gallery_info(gallery_2_url):
         'urls': exhib_urls
     }
     save_data_to_file(data, data_file_path)
-    
+
+    # Update back_up data
+    shutil.copy('./static/scraped_data.json', './back_up_json/scraped_data.json') # USE SHUTIL both for linux/mac and win
 
     return exhib_titles, exhib_dates, exhib_locations, exhib_intro, exhib_articles, exhib_urls
