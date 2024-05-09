@@ -3,6 +3,7 @@ import json
 from bs4 import BeautifulSoup
 import requests
 import shutil
+import validators
 
 data_file_path = "./static/scraped_data.json"
 
@@ -65,7 +66,7 @@ def extract_gallery_info(gallery_2_url):
     # initialize current_url as the first page's url
     current_url = gallery_2_url.get('Tate')
 
-    # this is used to cancatenate with href --> get valid new url as a whole
+    # this is used to concatenate with href --> get valid new url as a whole
     home_url = current_url[:23]
 
     # OUTER LOOP  
@@ -95,11 +96,15 @@ def extract_gallery_info(gallery_2_url):
         for i in mixed_info:
             info_chunck = i.find_all('a')
             for j in info_chunck:
-                new_url = home_url+j.attrs['href']
+                # CHECK THAT URL IS WELLFORMED HERE
+                if validators.url(j.attrs['href']):
+                    new_url = j.attrs['href']
+                elif validators.url(home_url+j.attrs['href']):
+                    new_url = home_url+j.attrs['href']
                 
                 # prevent url repetitions
                 if new_url not in current_page_hrefs:
-                    current_page_hrefs.append(new_url)     # update current page hirefs
+                    current_page_hrefs.append(new_url)     # update current page hrefs
                     exhib_urls.append(new_url)             # accumulate all urls 
         
         # INNER LOOP     
@@ -147,11 +152,14 @@ def extract_gallery_info(gallery_2_url):
         next_page = soup.find_all('li', class_ = 'pager__item pager__item--next')  
         
         # check if reaches the end of all pages & update current page url accordingly
-        if next_page:  
-            current_url = home_url + next_page[0].find('a').attrs['href']
+        # CHECK THAT URL IS WELLFORMED
+        if next_page:
+            if validators.url(next_page[0].find('a').attrs['href']):
+                current_url = next_page[0].find('a').attrs['href']
+            elif validators.url(home_url + next_page[0].find('a').attrs['href']):
+                current_url = home_url + next_page[0].find('a').attrs['href']
         else:
             current_url = ''
-    
     
     # After scraping, save the data to the file
     data = {

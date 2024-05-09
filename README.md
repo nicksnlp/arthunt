@@ -17,14 +17,13 @@ The following improvements have been made:
 9. Queries preprocessing added, that removes unknown words, "and"/"or" at the beginning or the end of a query, and separates brackets with spaces. 
 9. Structure of the function self.search has been modified.  
 10. Lemmatisation improved in search modes Relevance + Wildcard.
+11. Validators are applied on web-scraping, that assures that the links a correctly formed.
 
 POSSIBLE FUTURE IMPROVEMENTS:
 
-11. Improve Boolean search: add lemmatised search into "d*g and cats", "paints and cats".
+12. Improve Boolean search: add lemmatised search into "d*g and cats", "paints and cats".
 
-12. Highlight words found in the text
-
-13. A safe feature for bad urls
+13. Highlight words found in the text
 
 ### Running the project:
 
@@ -41,6 +40,7 @@ pip install Flask
 pip install -U spacy
 python -m spacy download en_core_web_sm
 pip install beautifulsoup4
+pip install validators
 pip install -U scikit-learn
 pip install -U matplotlib
 ```
