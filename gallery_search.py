@@ -192,10 +192,14 @@ class GallerySearch:
         words_good = [w for w in words_good if w != "xx_remove"]
 
         
-        #remove possible left-over operator after unknown word at the start of the sentence
+        #remove possible left-over operator after unknown word at the START of the sentence
         if words_good != [] and words_good[0] in ["and", "or"]:
             words_good.pop(0)
-            
+
+        #remove possible left-over operator after unknown word at the END of the sentence
+        if words_good != [] and words_good[-1] in ["and", "or"]:
+            words_good.pop(-1)
+
         #remove left-over operators after bracket "("
         for k, w in enumerate(words_good):
             
@@ -261,7 +265,7 @@ class GallerySearch:
                     
                     is_wildcard = True
                     # update query list:
-                    query_list = self.wildcard_parser(query, self.terms)
+                    query_list = self.wildcard_parser(query_known, self.terms)
                     q_known = ''
                     q_lemm = ''
                     wildcard_query_list_known = []
@@ -269,7 +273,7 @@ class GallerySearch:
                     # then do the search
 
                     # 1: boolean search. #Unknown words removed, unlemmatised search
-                    if self.boolean_detector(query):
+                    if self.boolean_detector(query_known):
 
                         for q in query_list:
 

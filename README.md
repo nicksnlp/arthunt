@@ -69,7 +69,7 @@ The search is based on data from scraping tate.org.uk website. The data is saved
 Based on the search results found, a bar chart will be generated, showing the distribution (i.e., numbers) of relevant exhibition(s) at each of Tate's branch galleries; for each exhibition in the search results, the following information will be displayed:
 
 1. the exhibition name
-2. people names and other entities mentioned in the article
+2. people names and other entities mentioned in the article (based on named entity recognition)
 3. time period
 4. location
 5. a brief summary about the exhibition's content
