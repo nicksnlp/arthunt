@@ -44,16 +44,21 @@ def scrape():
             os.remove(data_file_path) #need to remove old data, in order to initiate the new scraping (in gallery_search.extract_gallery_info / web_scraping.extract_gallery_info)
             gallery_search = GallerySearch({'Tate': 'https://www.tate.org.uk/whats-on'})
             scrape_message = "Old JSON file removed. Scraping restarted. New file created."
+            # Update back_up data
+            shutil.copy('./static/scraped_data.json', './back_up_json/scraped_data.json') # USE SHUTIL both for linux/mac and win
+            
         except: #if scraping failed (for eny reason, e.g. corrupted website), use back_up file
             shutil.copy('./back_up_json/scraped_data.json', './static/scraped_data.json') # USE SHUTIL both for linux/mac and win
             gallery_search = GallerySearch({'Tate': 'https://www.tate.org.uk/whats-on'}) # it uses data from a file, otherwise scrapes
             scrape_message = "Old JSON file removed. Scraping failed. Back-up data is used."
-
         
     else: #.json file is missing for any reason (for example the process was interrupted earlier)
         try: #try scraping the web        
             gallery_search = GallerySearch({'Tate': 'https://www.tate.org.uk/whats-on'})
             scrape_message = "Old JSON file not found. Scraping restarted. New file created."
+            # Update back_up data
+            shutil.copy('./static/scraped_data.json', './back_up_json/scraped_data.json') # USE SHUTIL both for linux/mac and win
+            
         except: #if scraping failed (for eny reason, e.g. corrupted website), use back_up file
             shutil.copy('./back_up_json/scraped_data.json', './static/scraped_data.json') # USE SHUTIL both for linux/mac and win
             gallery_search = GallerySearch({'Tate': 'https://www.tate.org.uk/whats-on'}) # it uses data from a file, otherwise scrapes

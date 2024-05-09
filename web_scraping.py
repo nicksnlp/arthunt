@@ -164,7 +164,4 @@ def extract_gallery_info(gallery_2_url):
     }
     save_data_to_file(data, data_file_path)
 
-    # Update back_up data
-    shutil.copy('./static/scraped_data.json', './back_up_json/scraped_data.json') # USE SHUTIL both for linux/mac and win
-
     return exhib_titles, exhib_dates, exhib_locations, exhib_intro, exhib_articles, exhib_urls
