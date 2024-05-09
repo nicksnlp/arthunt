@@ -14,7 +14,7 @@ The following improvements have been made:
 6. "Scrape the WEB again" button on the loading page. Removes the data, initiates the new scraping process.
 7. Old plot-files are deleted on restart and/or after new scraping initiated.
 8. Project is deployed on [nicksnlp.pythonanywhere.com](http://nicksnlp.pythonanywhere.com/)
-9. Search structure modified, queries preprocessing added, that removes unknown words.
+9. Search structure modified, queries preprocessing added, that removes unknown words, separates brackets and removes and/or at the beginning and end of a query. 
 10. Lemmatisation improved in search modes Relevance + Wildcard.
 
 This way the project can be easier handled by web hosting environments, and/or incorporated into other applications.
