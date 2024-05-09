@@ -141,16 +141,11 @@ class GallerySearch:
 
         return idx_matches  
 
-    def relevance_search(self, query, is_wildcard):  
-        # use non-lemmatized matrix for wildcard search
-        if is_wildcard:
-            query_vec = self.tv.transform([query.lower()]).tocsc()       #convert query to vector
-            hits = np.dot(query_vec, self.sparse_matrix_r)
-
-        # use lemmatized matrix otherwise
-        else:
-            query_vec = self.tv_lemm.transform([query.lower()]).tocsc()       #convert query to vector
-            hits = np.dot(query_vec, self.sparse_matrix_r_lemm)
+    def relevance_search(self, query):
+        
+        # use lemmatized matrix
+        query_vec = self.tv_lemm.transform([query.lower()]).tocsc()       #convert query to vector
+        hits = np.dot(query_vec, self.sparse_matrix_r_lemm)
 
         # rank doc by relevance (high -> low)
         ranked_scores_and_doc_ids = sorted(zip(np.array(hits[hits.nonzero()])[0], hits.nonzero()[1]), reverse=True)
@@ -263,7 +258,6 @@ class GallerySearch:
 
                     search_mode = "Wildcard Search"
                     
-                    is_wildcard = True
                     # update query list:
                     query_list = self.wildcard_parser(query_known, self.terms)
                     q_known = ''
@@ -309,7 +303,7 @@ class GallerySearch:
 
                             search_mode = "Relevance + Wildcard Search"
                                                   
-                            idx_matches_per_loop = self.relevance_search(q_lemm, is_wildcard)
+                            idx_matches_per_loop = self.relevance_search(q_lemm)
 
                             for idx in idx_matches_per_loop: # prevent repetitions
                                 if idx not in idx_matches:
@@ -335,12 +329,10 @@ class GallerySearch:
 
                 # RELEVANCE SEARCH, unknown terms removed 
                 else:
-                    # mark that the query doesn't need wildcard search
-                    is_wildcard = False
-
+                    
                     search_mode = "Relevance Search"
                                           
-                    idx_matches_per_loop = self.relevance_search(query_lemm, is_wildcard)
+                    idx_matches_per_loop = self.relevance_search(query_lemm)
 
                     for idx in idx_matches_per_loop: # prevent repetitions
                         if idx not in idx_matches:
