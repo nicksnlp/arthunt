@@ -259,7 +259,7 @@ class GallerySearch:
                     search_mode = "Wildcard Search"
                     
                     # update query list:
-                    query_list = self.wildcard_parser(query_known, self.terms)
+                    query_list = self.wildcard_parser(query_known, self.terms) # UNKNOWN WORDS REMOVED ALREADY HERE
                     q_known = ''
                     q_lemm = ''
                     wildcard_query_list_known = []
@@ -271,7 +271,7 @@ class GallerySearch:
 
                         for q in query_list:
 
-                            #remove unkown words
+                            #remove unkown words, its uneeded, but is okay
                             q_known = self.remove_unknown_terms(q)
                             #lemmatise query
                             #q_lemm = self.lemmatize_query(q_known)
@@ -294,7 +294,7 @@ class GallerySearch:
 
                         for q in query_list:
 
-                            #remove unkown words
+                            #remove unkown words, its uneeded, but is okay
                             q_known = self.remove_unknown_terms(q)
                             #lemmatise query
                             q_lemm = self.lemmatize_query(q_known)
