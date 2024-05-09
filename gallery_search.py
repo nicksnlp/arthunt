@@ -208,6 +208,30 @@ class GallerySearch:
         new_query = " ".join(w for w in words_good)
 
         return new_query
+
+    def bracket_parser(self, query): # this is used to separate brackets with spaces
+        
+        words = query.lower().split()
+        words_parsed = []
+        new_query = ""
+
+        for word in words:
+
+            word_processing_list = []
+
+            for char in word:
+                
+                if char in '()':
+                    word_processing_list.append(' ' + char + ' ')
+                    #extra space will be removed later in self.remove_unknown_terms()
+                else:
+                    word_processing_list.append(char)
+
+            words_parsed.append("".join(word_processing_list))
+
+        new_query = " ".join(words_parsed)
+
+        return new_query
     
     def search(self, query):
         num_matches = 0
@@ -220,6 +244,10 @@ class GallerySearch:
         # query not empty or == None -> get all matching idx then
         if query and not str(query).isspace():
             query = str(query).strip()      # remove starting & ending whitespaces
+
+            #parse query, add spaces after/before brackets
+            query = self.bracket_parser(query)
+            
             query_known = self.remove_unknown_terms(query) ## REWRITE QUERY TO REMOVE UNKNOWN TERMS
             query_lemm = self.lemmatize_query(query_known)
             query_list = [query_lemm] #USING LEMMATISED QUERY
