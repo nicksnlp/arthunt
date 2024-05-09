@@ -23,7 +23,7 @@ POSSIBLE FUTURE IMPROVEMENTS:
 
 11. Improve Boolean search: add lemmatised search into "d*g and cats", "paints and cats".
 
-12. highlight words found in the text
+12. Highlight words found in the text
 
 ### Running the project:
 
@@ -79,7 +79,7 @@ Based on the search results found, a bar chart will be generated, showing the di
 The search engine has 4 different search modes. Search mode will be automatically selected based on the content of the query (and the activated search mode for an input query will be displayed). The search modes include the following:
 
 1. Relevance Search
-2. Boolean Search (activated automatically if the query contains logic operator(s), including 'and', 'or', 'not', and brackets, use brackets with spaces before/after)
+2. Boolean Search (activated automatically if the query contains logic operator(s), including 'and', 'or', 'not', and brackets)
 
 and combination of those with Wildcard search:
 
@@ -88,7 +88,7 @@ and combination of those with Wildcard search:
 
 In this version lemmatisation is applied to search modes 1 and 3. Exact search is performed on queries containing Boolean operators.
 
-Also, in this updated version, a preprocessing of queries has been added. It effectively activates search when receiving queries like: "and cat", as well as removes unknown words from the query, including in those with "*". This is displayed in the output.
+Also, in this updated version, a preprocessing of queries has been added. It effectively separates brackets from words, activates search when receiving queries like: "and cat", as well as removes unknown words from the query, including those with "*". This is displayed in the output.
 
 ## Demo example:
 
