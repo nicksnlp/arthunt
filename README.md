@@ -14,7 +14,7 @@ The following improvements have been made:
 6. "Scrape the WEB again" button on the loading page. Removes the data, initiates the new scraping process. If process succeeds, back-up data gets also updated. 
 7. Old plot-files are deleted on restart and/or after new scraping initiated.
 8. Project is deployed on [nicksnlp.pythonanywhere.com](http://nicksnlp.pythonanywhere.com/).
-9. Queries preprocessing added. It removes unknown words, "and"/"or" at the beginning or the end of a query, and separates brackets with spaces. 
+9. Queries preprocessing added, that removes unknown words, "and"/"or" at the beginning or the end of a query, and separates brackets with spaces. 
 9. Structure of the function self.search has been modified.  
 10. Lemmatisation improved in search modes Relevance + Wildcard.
 
@@ -23,6 +23,8 @@ POSSIBLE FUTURE IMPROVEMENTS:
 11. Improve Boolean search: add lemmatised search into "d*g and cats", "paints and cats".
 
 12. Highlight words found in the text
+
+13. A safe feature for bad urls
 
 ### Running the project:
 
@@ -87,7 +89,7 @@ and combination of those with Wildcard search:
 
 In this version lemmatisation is applied to search modes 1 and 3. Exact search is performed on queries containing Boolean operators.
 
-Also, in this updated version, a preprocessing of queries has been added. It effectively separates brackets from words, activates search when receiving queries like: "and cat", as well as removes unknown words from the query, including those with "*". This is displayed in the output.
+Also, in this updated version, a preprocessing of queries has been added. The brackets are separated with spaced and search is activated even, when receiving queries like: "and cat". Unknown words are also get removed from the query, including in queries with "*". This is displayed in the output.
 
 ## Demo example:
 
