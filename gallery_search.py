@@ -214,6 +214,8 @@ class GallerySearch:
         search_mode = "None. Try different query."    # default search mode
         naming_query = ''   # for the naming of generated bar chart
         query_lemm = ''
+        query_known = ''
+        query_list = ''
 
         
         # query not empty or == None -> get all matching idx then
