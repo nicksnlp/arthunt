@@ -15,15 +15,15 @@ The following improvements have been made:
 7. Old plot-files are deleted on restart and/or after new scraping initiated.
 8. Project is deployed on [nicksnlp.pythonanywhere.com](http://nicksnlp.pythonanywhere.com/).
 9. Queries preprocessing added, that removes unknown words, "and"/"or" at the beginning or the end of a query, and separates brackets with spaces. 
-9. Structure of the function self.search has been modified.  
-10. Lemmatisation improved in search modes Relevance + Wildcard.
-11. Validators are applied on web-scraping, that assures that the links a correctly formed.
+10. Structure of the function self.search has been modified.  
+11. Lemmatisation improved in search modes Relevance + Wildcard.
+12. Validators are applied on web-scraping, that assures that the links a correctly formed.
 
 POSSIBLE FUTURE IMPROVEMENTS:
 
-12. Improve Boolean search: add lemmatised search into "d*g and cats", "paints and cats".
+13. Improve Boolean search: add lemmatised search into "d*g and cats", "paints and cats".
 
-13. Highlight words found in the text
+14. Highlight words found in the text
 
 ### Running the project:
 
