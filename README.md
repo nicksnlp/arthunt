@@ -2,7 +2,7 @@
 
 This is a continuation of a team-project IKEA Meatballs (https://github.com/zccwqdoorchid/IKEA-meatballs/tree/main/Final_Project) by XinyanMO, nicksnlp, and zccwqdoorchid.
 
-The project runs on <strong>flask</strong> and requires the following libraries:  <strong>scikit-learn, spacy, beautifulsoup, matplotlib, validators </strong>.
+The project runs on <strong>flask</strong> and requires the following libraries:  <strong>scikit-learn, spacy, beautifulsoup, matplotlib, validators</strong>.
 
 The following improvements have been made:
 
