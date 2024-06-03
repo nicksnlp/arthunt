@@ -13,7 +13,7 @@ The following improvements have been made:
 5. Scraping data is saved into an external scraped_data.json, as a dictionary. If it is not present there, the new scraping is initiated (may take around 5 minutes to complete).
 6. "Scrape the WEB again" button on the loading page. Removes the data, initiates the new scraping process. If process succeeds, back-up data gets also updated. 
 7. Old plot-files are deleted on restart and/or after new scraping initiated.
-8. Project is deployed on [nicksnlp.pythonanywhere.com](http://nicksnlp.pythonanywhere.com/).
+8. Project is deployed on [nicksnlp.pythonanywhere.com](http://nicksnlp.pythonanywhere.com/) -- DISABLED.
 9. Queries preprocessing added, that removes unknown words, "and"/"or" at the beginning or the end of a query, and separates brackets with spaces. 
 10. Structure of the function self.search has been modified.  
 11. Lemmatisation improved in search modes Relevance + Wildcard.
